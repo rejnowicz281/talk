@@ -41,9 +41,9 @@ export async function apiRegister(username, email, password, password_confirm) {
     }
 }
 
-export async function fetchUserData(userId) {
+export async function fetchUserData(username) {
     try {
-        const response = await api.get(`users/${userId}`);
+        const response = await api.get(`users/${username}`);
 
         return response;
     } catch (error) {
