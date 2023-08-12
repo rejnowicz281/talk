@@ -13,7 +13,7 @@ const api = axios.create({
     baseURL: API_URL,
 });
 
-export async function loginResponse(email, password) {
+export async function apiLogin(email, password) {
     try {
         const response = await api.post("login", {
             email,
@@ -26,7 +26,7 @@ export async function loginResponse(email, password) {
     }
 }
 
-export async function registerResponse(username, email, password, password_confirm) {
+export async function apiRegister(username, email, password, password_confirm) {
     try {
         const response = await api.post("register", {
             username,
@@ -34,6 +34,16 @@ export async function registerResponse(username, email, password, password_confi
             password,
             password_confirm,
         });
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export async function fetchUserData(userId) {
+    try {
+        const response = await api.get(`users/${userId}`);
 
         return response;
     } catch (error) {

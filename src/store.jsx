@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 import { create } from "zustand";
-import { loginResponse, registerResponse } from "../helpers/API";
+import { apiLogin, apiRegister } from "../helpers/API";
 
 export const useAuthStore = create((set, get) => ({
     user: null,
@@ -9,7 +9,7 @@ export const useAuthStore = create((set, get) => ({
         set({ user: null });
     },
     login: async (email, password) => {
-        const response = await loginResponse(email, password);
+        const response = await apiLogin(email, password);
 
         if (response.status === 200) {
             localStorage.setItem("token", response.data.token);
@@ -19,7 +19,7 @@ export const useAuthStore = create((set, get) => ({
         return response;
     },
     register: async (email, username, password, password_confirm) => {
-        const response = await registerResponse(username, email, password, password_confirm);
+        const response = await apiRegister(username, email, password, password_confirm);
 
         if (response.status === 200) {
             localStorage.setItem("token", response.data.token);
