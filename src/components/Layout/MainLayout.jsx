@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useAuthStore } from "../../store";
 
 function MainLayout() {
@@ -9,7 +9,11 @@ function MainLayout() {
 
     return (
         <>
-            {user && <h1>Welcome {user.name}</h1>}{" "}
+            {user && (
+                <h1>
+                    Welcome, <Link to={"/talk/users/" + user.name}>{user.name}</Link>
+                </h1>
+            )}
             <aside>
                 <button onClick={logout}>Logout</button>
             </aside>

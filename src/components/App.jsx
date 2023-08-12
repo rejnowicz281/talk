@@ -6,6 +6,7 @@ import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import AuthLayout from "./Layout/AuthLayout";
 import MainLayout from "./Layout/MainLayout";
+import Profile from "./User/Profile";
 
 function App() {
     const user = useAuthStore((state) => state.user);
@@ -39,6 +40,7 @@ function App() {
                         <Route element={<MainLayout />}>
                             <Route path="/*" element={<Navigate to="/talk/home" />} />
                             <Route path="/talk/home" element={<div>Hello World</div>} />
+                            <Route path="/talk/users/:username" element={<Profile />} />
                         </Route>
                     ) : (
                         <Route element={<AuthLayout />}>
