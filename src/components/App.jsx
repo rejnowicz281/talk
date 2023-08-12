@@ -1,33 +1,56 @@
-import { BrowserRouter, Link, NavLink, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import isTokenExpired from "../../helpers/isTokenExpired";
+import { useAuthStore } from "../store";
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
+import AuthLayout from "./Layout/AuthLayout";
+import MainLayout from "./Layout/MainLayout";
 
 function App() {
-    async function logout() {
-        localStorage.removeItem("token");
-    }
+    const user = useAuthStore((state) => state.user);
+    const logout = useAuthStore((state) => state.logout);
+    const setUserFromToken = useAuthStore((state) => state.setUserFromToken);
+    const [tokenChecked, setTokenChecked] = useState(false);
 
-    return (
-        <BrowserRouter>
-            <nav>
-                <ul>
-                    <li>
-                        <NavLink to="/talk/login">Login</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/talk/register">Register</NavLink>
-                    </li>
-                    <li>
-                        <Link onClick={logout}>Logout</Link>
-                    </li>
-                </ul>
-            </nav>
-            <Routes>
-                <Route path="/talk/login" element={<Login />} />
-                <Route path="/talk/register" element={<Register />} />
-            </Routes>
-        </BrowserRouter>
-    );
+    useEffect(() => {
+        async function checkToken() {
+            setTokenChecked(false);
+            const token = localStorage.getItem("token");
+
+            if (token) {
+                const isExpired = isTokenExpired(token);
+
+                if (isExpired) logout();
+                else await setUserFromToken(token);
+            }
+
+            setTokenChecked(true);
+        }
+
+        checkToken();
+    }, []);
+
+    if (tokenChecked) {
+        return (
+            <BrowserRouter>
+                <Routes>
+                    {user ? (
+                        <Route element={<MainLayout />}>
+                            <Route path="/*" element={<Navigate to="/talk/home" />} />
+                            <Route path="/talk/home" element={<div>Hello World</div>} />
+                        </Route>
+                    ) : (
+                        <Route element={<AuthLayout />}>
+                            <Route path="/*" element={<Navigate to="/talk/login" />} />
+                            <Route path="/talk/login" element={<Login />} />
+                            <Route path="/talk/register" element={<Register />} />
+                        </Route>
+                    )}
+                </Routes>
+            </BrowserRouter>
+        );
+    }
 }
 
 export default App;
