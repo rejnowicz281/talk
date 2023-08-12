@@ -25,3 +25,18 @@ export async function loginResponse(email, password) {
         return error.response;
     }
 }
+
+export async function registerResponse(username, email, password, password_confirm) {
+    try {
+        const response = await api.post("register", {
+            username,
+            email,
+            password,
+            password_confirm,
+        });
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
