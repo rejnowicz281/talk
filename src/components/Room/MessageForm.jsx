@@ -18,9 +18,10 @@ function MessageForm({ addMessage }) {
 
         if (res.status === 200) {
             const message = {
-                ...res.data.message,
+                ...res.data.messageBody,
                 user,
             };
+
             addMessage(message);
             setText("");
             setErrors([]);
