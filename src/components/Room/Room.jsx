@@ -43,10 +43,6 @@ function Room() {
         setMessages((messages) => [...messages, message]);
     }
 
-    async function isChatter() {
-        return await room.chatters.some((chatter) => chatter._id === user._id);
-    }
-
     async function leaveRoom(userId) {
         const res = await fetchLeaveRoom(id, userId);
 
@@ -87,7 +83,7 @@ function Room() {
                 {isAdmin && <Delete />}
                 {isAdmin && <Update setRoomName={setRoomName} />}
                 {!isAdmin &&
-                    (isChatter() ? (
+                    (room.chatters.some((chatter) => chatter._id === user._id) ? (
                         <button onClick={() => leaveRoom(user._id)}>Leave Room</button>
                     ) : (
                         <button onClick={() => joinRoom()}>Join Room</button>
@@ -104,7 +100,7 @@ function Room() {
                     ))}
                 </ul>
                 <hr />
-                {isChatter() && <MessageForm addMessage={addMessage} />}
+                {room.chatters.some((chatter) => chatter._id === user._id) && <MessageForm addMessage={addMessage} />}
                 <ul>
                     {messages.map((message) => (
                         <li key={message._id}>
