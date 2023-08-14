@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserData } from "../../../helpers/API";
 
 function Profile() {
@@ -22,6 +22,16 @@ function Profile() {
         return (
             <div>
                 <h1>This is {username}'s Profile</h1>
+                <h2>A chatter in:</h2>
+                <ul>
+                    {user.chatterRooms.map((room) => (
+                        <li key={room._id}>
+                            <Link to={"/talk/rooms/" + room._id}>
+                                {room.name} | Admin ({room.admin.username})
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
             </div>
         );
     }
