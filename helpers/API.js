@@ -136,3 +136,13 @@ export async function fetchCreateMessage(roomId, text) {
         return error.response;
     }
 }
+
+export async function fetchDeleteMessage(roomId, messageId) {
+    try {
+        const response = await apiAuth.delete(`rooms/${roomId}/messages/${messageId}`);
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}

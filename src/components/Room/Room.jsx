@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { fetchJoinRoom, fetchLeaveRoom, fetchRoom } from "../../../helpers/API";
+import { fetchDeleteMessage, fetchJoinRoom, fetchLeaveRoom, fetchRoom } from "../../../helpers/API";
 import { useAuthStore } from "../../store";
 import Delete from "./Delete";
 import MessageForm from "./MessageForm";
@@ -69,6 +69,14 @@ function Room() {
         }
     }
 
+    async function deleteMessage(messageId) {
+        const res = await fetchDeleteMessage(id, messageId);
+
+        if (res.status === 200) {
+            setMessages((messages) => messages.filter((message) => message._id !== messageId));
+        }
+    }
+
     if (mounted) {
         return (
             <div>
@@ -102,6 +110,9 @@ function Room() {
                         <li key={message._id}>
                             <Link to={"/talk/users/" + message.user.username}>{message.user.username}</Link>:{" "}
                             {message.text}
+                            {(isAdmin || message.user._id === user._id) && (
+                                <button onClick={() => deleteMessage(message._id)}>Delete</button>
+                            )}
                         </li>
                     ))}
                 </ul>
