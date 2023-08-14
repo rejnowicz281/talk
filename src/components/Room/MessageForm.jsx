@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchCreateMessage } from "../../../helpers/API";
+import socket from "../../socket";
 import { useAuthStore } from "../../store/";
 import FormErrors from "../shared/FormErrors";
 
-function MessageForm({ addMessage }) {
+function MessageForm() {
     const user = useAuthStore((state) => state.user);
     const { id } = useParams();
     const [text, setText] = useState("");
@@ -22,7 +22,7 @@ function MessageForm({ addMessage }) {
                 user,
             };
 
-            addMessage(message);
+            socket.emit("addMessage", id, message);
             setText("");
             setErrors([]);
         } else {
@@ -45,9 +45,5 @@ function MessageForm({ addMessage }) {
         </>
     );
 }
-
-MessageForm.propTypes = {
-    addMessage: PropTypes.func.isRequired,
-};
 
 export default MessageForm;

@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchDeleteMessage, fetchJoinRoom, fetchLeaveRoom, fetchRoom } from "../../../helpers/API";
-import { useAuthStore } from "../../store";
+import socket from "../../socket";
+import { useAuthStore, useRoomsStore } from "../../store";
 import Delete from "./Delete";
 import MessageForm from "./MessageForm";
 import Update from "./Update";
 
 function Room() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const user = useAuthStore((state) => state.user);
     const [room, setRoom] = useState(null);
+    const removeRoom = useRoomsStore((state) => state.removeRoom);
     const [isAdmin, setIsAdmin] = useState(false);
     const [mounted, setMounted] = useState(false);
 
@@ -25,11 +28,28 @@ function Room() {
             }
         }
 
+        socket.emit("joinRoom", id);
+        socket.on("addMessage", (message) => addMessage(message));
+        socket.on("removeMessage", (messageId) => removeMessage(messageId));
+        socket.on("removeChatter", (userId) => removeChatter(userId));
+        socket.on("addChatter", (user) => addChatter(user));
+        socket.on("removeRoom", (roomId) => {
+            if (roomId === id) navigate("/talk");
+            removeRoom(roomId);
+        });
+
         getRoom();
 
         return () => {
             setIsAdmin(false);
             setMounted(false);
+            socket.off("addMessage");
+            socket.off("removeMessage");
+            socket.off("removeChatter");
+            socket.off("becomeChatter");
+            socket.off("addChatter");
+            socket.off("removeRoom");
+            socket.emit("leaveRoom", id);
         };
     }, [id]);
 
@@ -41,37 +61,43 @@ function Room() {
         setRoom((room) => ({ ...room, messages: [...room.messages, message] }));
     }
 
+    function removeMessage(messageId) {
+        setRoom((room) => ({
+            ...room,
+            messages: room.messages.filter((message) => message._id !== messageId),
+        }));
+    }
+
+    function removeChatter(userId) {
+        setRoom((room) => ({
+            ...room,
+            chatters: room.chatters.filter((chatter) => chatter._id !== userId),
+        }));
+    }
+
+    function addChatter(user) {
+        setRoom((room) => ({
+            ...room,
+            chatters: [...room.chatters, user],
+        }));
+    }
+
     async function leaveRoom(userId) {
         const res = await fetchLeaveRoom(id, userId);
 
-        if (res.status === 200) {
-            setRoom((room) => ({
-                ...room,
-                chatters: room.chatters.filter((chatter) => chatter._id !== userId),
-            }));
-        }
+        if (res.status === 200) socket.emit("removeChatter", id, userId);
     }
 
     async function joinRoom() {
         const res = await fetchJoinRoom(id);
 
-        if (res.status === 200) {
-            setRoom((room) => ({
-                ...room,
-                chatters: [...room.chatters, user],
-            }));
-        }
+        if (res.status === 200) socket.emit("addChatter", id, user);
     }
 
     async function deleteMessage(messageId) {
         const res = await fetchDeleteMessage(id, messageId);
 
-        if (res.status === 200) {
-            setRoom((room) => ({
-                ...room,
-                messages: room.messages.filter((message) => message._id !== messageId),
-            }));
-        }
+        if (res.status === 200) socket.emit("removeMessage", id, messageId);
     }
 
     if (mounted) {

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { fetchRooms } from "../../../helpers/API";
+import socket from "../../socket";
 import { useAuthStore, useRoomsStore } from "../../store";
 import CreateRoom from "../Room/Create";
 
@@ -12,6 +13,8 @@ function MainLayout() {
 
     const rooms = useRoomsStore((state) => state.rooms);
     const setRooms = useRoomsStore((state) => state.setRooms);
+    const removeRoom = useRoomsStore((state) => state.removeRoom);
+    const addRoom = useRoomsStore((state) => state.addRoom);
 
     useEffect(() => {
         async function getRooms() {
@@ -20,11 +23,32 @@ function MainLayout() {
             if (res.status === 200) setRooms(res.data.rooms);
         }
 
+        socket.on("testMessage", (message) => {
+            console.log(message);
+        });
+        socket.on("removeRoom", (roomId) => {
+            removeRoom(roomId);
+        });
+        socket.on("createRoom", (room) => {
+            addRoom(room);
+        });
+
         getRooms();
+
+        return () => {
+            socket.off("testMessage");
+            socket.off("removeRoom");
+            socket.off("createRoom");
+        };
     }, []);
+
+    function testMessage() {
+        socket.emit("testMessage", "Client: Test Message");
+    }
 
     return (
         <>
+            <button onClick={testMessage}>Click to broadcast a socket message!</button>
             {user && (
                 <h1>
                     Welcome, <Link to={"/talk/users/" + user.username}>{user.username}</Link>
