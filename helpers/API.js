@@ -124,3 +124,15 @@ export async function fetchJoinRoom(roomId) {
         return error.response;
     }
 }
+
+export async function fetchCreateMessage(roomId, text) {
+    try {
+        const response = await apiAuth.post(`rooms/${roomId}/messages`, {
+            text,
+        });
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
