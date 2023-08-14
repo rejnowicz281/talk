@@ -10,7 +10,6 @@ function Room() {
     const { id } = useParams();
     const user = useAuthStore((state) => state.user);
     const [room, setRoom] = useState(null);
-    const [messages, setMessages] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [mounted, setMounted] = useState(false);
 
@@ -21,7 +20,6 @@ function Room() {
             if (res.status === 200) {
                 if (user._id == res.data.room.admin._id) setIsAdmin(true);
 
-                setMessages(res.data.room.messages);
                 setRoom(res.data.room);
                 setMounted(true);
             }
@@ -40,7 +38,7 @@ function Room() {
     }
 
     function addMessage(message) {
-        setMessages((messages) => [...messages, message]);
+        setRoom((room) => ({ ...room, messages: [...room.messages, message] }));
     }
 
     async function leaveRoom(userId) {
@@ -69,7 +67,10 @@ function Room() {
         const res = await fetchDeleteMessage(id, messageId);
 
         if (res.status === 200) {
-            setMessages((messages) => messages.filter((message) => message._id !== messageId));
+            setRoom((room) => ({
+                ...room,
+                messages: room.messages.filter((message) => message._id !== messageId),
+            }));
         }
     }
 
@@ -102,7 +103,7 @@ function Room() {
                 <hr />
                 {room.chatters.some((chatter) => chatter._id === user._id) && <MessageForm addMessage={addMessage} />}
                 <ul>
-                    {messages.map((message) => (
+                    {room.messages.map((message) => (
                         <li key={message._id}>
                             <Link to={"/talk/users/" + message.user.username}>{message.user.username}</Link>:{" "}
                             {message.text}
