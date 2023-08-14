@@ -104,3 +104,23 @@ export async function fetchDeleteRoom(roomId) {
         return error.response;
     }
 }
+
+export async function fetchLeaveRoom(roomId, userId) {
+    try {
+        const response = await apiAuth.delete(`rooms/${roomId}/chatters/${userId}`);
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export async function fetchJoinRoom(roomId) {
+    try {
+        const response = await apiAuth.post(`rooms/${roomId}/chatters/join`);
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
