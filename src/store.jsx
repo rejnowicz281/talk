@@ -39,3 +39,11 @@ export const useAuthStore = create((set, get) => ({
         set({ user: decodedUser });
     },
 }));
+
+export const useRoomsStore = create((set, get) => ({
+    rooms: [],
+    setRooms: (rooms) => set({ rooms }),
+    addRoom: (room) => set({ rooms: [...get().rooms, room] }),
+    removeRoom: (id) => set({ rooms: get().rooms.filter((room) => room._id !== id) }),
+    updateRoom: (id, name) => set({ rooms: get().rooms.map((room) => (room._id === id ? { ...room, name } : room)) }),
+}));

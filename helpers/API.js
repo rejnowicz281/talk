@@ -50,3 +50,57 @@ export async function fetchUserData(username) {
         return error.response;
     }
 }
+
+export async function fetchRooms() {
+    try {
+        const response = await apiAuth.get("rooms");
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export async function fetchRoom(roomId) {
+    try {
+        const response = await apiAuth.get(`rooms/${roomId}`);
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export async function fetchCreateRoom(name) {
+    try {
+        const response = await apiAuth.post("rooms", {
+            name,
+        });
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export async function fetchUpdateRoom(roomId, name) {
+    try {
+        const response = await apiAuth.put(`rooms/${roomId}`, {
+            name,
+        });
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export async function fetchDeleteRoom(roomId) {
+    try {
+        const response = await apiAuth.delete(`rooms/${roomId}`);
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}

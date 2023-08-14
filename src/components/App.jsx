@@ -6,6 +6,7 @@ import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import AuthLayout from "./Layout/AuthLayout";
 import MainLayout from "./Layout/MainLayout";
+import Room from "./Room/Room";
 import Profile from "./User/Profile";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
                             <Route path="/*" element={<Navigate to="/talk/home" />} />
                             <Route path="/talk/home" element={<div>Hello World</div>} />
                             <Route path="/talk/users/:username" element={<Profile />} />
+                            <Route path="/talk/rooms/:id" element={<Room />} />
                         </Route>
                     ) : (
                         <Route element={<AuthLayout />}>
