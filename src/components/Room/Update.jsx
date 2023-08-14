@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchUpdateRoom } from "../../../helpers/API";
 import { useRoomsStore } from "../../store";
+import FormErrors from "../shared/FormErrors";
 
 function Update({ setRoomName }) {
     const updateRoom = useRoomsStore((state) => state.updateRoom);
@@ -27,13 +28,7 @@ function Update({ setRoomName }) {
 
     return (
         <>
-            {errors.length > 0 && (
-                <ul>
-                    {errors.map((error) => (
-                        <li key={error.msg}>{error.msg}</li>
-                    ))}
-                </ul>
-            )}
+            {errors.length > 0 && <FormErrors errors={errors} />}
             <form onSubmit={handleUpdateRoom}>
                 <input
                     type="text"
