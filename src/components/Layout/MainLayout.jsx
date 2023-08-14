@@ -27,7 +27,7 @@ function MainLayout() {
         <>
             {user && (
                 <h1>
-                    Welcome, <Link to={"/talk/users/" + user.name}>{user.name}</Link>
+                    Welcome, <Link to={"/talk/users/" + user.username}>{user.username}</Link>
                 </h1>
             )}
             <aside>

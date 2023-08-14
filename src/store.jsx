@@ -32,8 +32,8 @@ export const useAuthStore = create((set, get) => ({
         const decodedToken = await jwt_decode(token);
 
         const decodedUser = {
-            id: decodedToken.sub,
-            name: decodedToken.username,
+            _id: decodedToken.sub,
+            username: decodedToken.username,
         };
 
         set({ user: decodedUser });
