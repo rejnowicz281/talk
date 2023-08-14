@@ -25,6 +25,8 @@ function Room() {
 
                 setRoom(res.data.room);
                 setMounted(true);
+            } else {
+                navigate("/talk");
             }
         }
 
