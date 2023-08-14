@@ -2,11 +2,10 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchUpdateRoom } from "../../../helpers/API";
-import { useRoomsStore } from "../../store";
+import socket from "../../socket";
 import FormErrors from "../shared/FormErrors";
 
-function Update({ setRoomName }) {
-    const updateRoom = useRoomsStore((state) => state.updateRoom);
+function Update() {
     const { id } = useParams();
     const [newName, setNewName] = useState("");
     const [errors, setErrors] = useState([]);
@@ -17,8 +16,7 @@ function Update({ setRoomName }) {
         const res = await fetchUpdateRoom(id, newName);
 
         if (res.status === 200) {
-            updateRoom(id, newName);
-            setRoomName(newName);
+            socket.emit("updateRoom", id, newName);
             setNewName("");
             setErrors([]);
         } else {

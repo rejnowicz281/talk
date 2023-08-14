@@ -13,6 +13,7 @@ function Room() {
     const user = useAuthStore((state) => state.user);
     const [room, setRoom] = useState(null);
     const removeRoom = useRoomsStore((state) => state.removeRoom);
+    const updateRoom = useRoomsStore((state) => state.updateRoom);
     const [isAdmin, setIsAdmin] = useState(false);
     const [mounted, setMounted] = useState(false);
 
@@ -39,6 +40,10 @@ function Room() {
             if (roomId === id) navigate("/talk");
             removeRoom(roomId);
         });
+        socket.on("updateRoom", (roomId, newName) => {
+            if (roomId === id) setRoomName(newName);
+            updateRoom(roomId, newName);
+        });
 
         getRoom();
 
@@ -51,6 +56,7 @@ function Room() {
             socket.off("becomeChatter");
             socket.off("addChatter");
             socket.off("removeRoom");
+            socket.off("updateRoom");
             socket.emit("leaveRoom", id);
         };
     }, [id]);
