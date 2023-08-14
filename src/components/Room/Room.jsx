@@ -43,8 +43,8 @@ function Room() {
         setMessages((messages) => [...messages, message]);
     }
 
-    function isChatter() {
-        return room.chatters.some((chatter) => chatter._id === user._id);
+    async function isChatter() {
+        return await room.chatters.some((chatter) => chatter._id === user._id);
     }
 
     async function leaveRoom(userId) {
