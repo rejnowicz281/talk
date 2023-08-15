@@ -15,7 +15,6 @@ function Room() {
     const removeNavbarRoom = useNavbarStore((state) => state.removeNavbarRoom);
     const updateNavbarRoom = useNavbarStore((state) => state.updateNavbarRoom);
     const [isAdmin, setIsAdmin] = useState(false);
-    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
         async function getRoom() {
@@ -25,7 +24,6 @@ function Room() {
                 if (user._id == res.data.room.admin._id) setIsAdmin(true);
 
                 setRoom(res.data.room);
-                setMounted(true);
             } else {
                 navigate("/talk");
             }
@@ -49,7 +47,6 @@ function Room() {
 
         return () => {
             setIsAdmin(false);
-            setMounted(false);
             socket.off("addMessage");
             socket.off("removeMessage");
             socket.off("removeChatter");
@@ -108,7 +105,7 @@ function Room() {
         if (res.status === 200) socket.emit("removeMessage", id, messageId);
     }
 
-    if (mounted) {
+    if (room) {
         return (
             <div>
                 <h1>{room.name}</h1>
