@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { fetchCreateRoom } from "../../../helpers/API";
 import socket from "../../socket";
-import { useAuthStore } from "../../store";
 import FormErrors from "../shared/FormErrors";
 
 function Create() {
-    const currentUser = useAuthStore((state) => state.currentUser);
     const [name, setName] = useState("");
     const [errors, setErrors] = useState([]);
 
@@ -15,15 +13,7 @@ function Create() {
         const res = await fetchCreateRoom(name);
 
         if (res.status === 200) {
-            const room = {
-                _id: res.data.room._id,
-                name: res.data.room.name,
-                admin: {
-                    _id: currentUser._id,
-                    username: currentUser.username,
-                },
-            };
-            socket.emit("createRoom", room);
+            socket.emit("createRoom", res.data.room);
             setName("");
             setErrors([]);
         } else {

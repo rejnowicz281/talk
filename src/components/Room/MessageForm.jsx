@@ -2,11 +2,9 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchCreateMessage } from "../../../helpers/API";
 import socket from "../../socket";
-import { useAuthStore } from "../../store/";
 import FormErrors from "../shared/FormErrors";
 
 function MessageForm() {
-    const currentUser = useAuthStore((state) => state.currentUser);
     const { id } = useParams();
     const [text, setText] = useState("");
     const [errors, setErrors] = useState([]);
@@ -17,12 +15,7 @@ function MessageForm() {
         const res = await fetchCreateMessage(id, text);
 
         if (res.status === 200) {
-            const message = {
-                ...res.data.messageBody,
-                user: currentUser,
-            };
-
-            socket.emit("addMessage", id, message);
+            socket.emit("addMessage", id, res.data.messageBody);
             setText("");
             setErrors([]);
         } else {
