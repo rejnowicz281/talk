@@ -15,6 +15,7 @@ function MainLayout() {
     const setRooms = useRoomsStore((state) => state.setRooms);
     const removeRoom = useRoomsStore((state) => state.removeRoom);
     const addRoom = useRoomsStore((state) => state.addRoom);
+    const updateRoom = useRoomsStore((state) => state.updateRoom);
 
     useEffect(() => {
         async function getRooms() {
@@ -32,6 +33,9 @@ function MainLayout() {
         socket.on("createRoom", (room) => {
             addRoom(room);
         });
+        socket.on("updateRoom", (roomId, newName) => {
+            updateRoom(roomId, newName);
+        });
 
         getRooms();
 
@@ -39,6 +43,7 @@ function MainLayout() {
             socket.off("testMessage");
             socket.off("removeRoom");
             socket.off("createRoom");
+            socket.off("updateRoom");
         };
     }, []);
 
