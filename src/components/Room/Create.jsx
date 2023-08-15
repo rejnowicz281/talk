@@ -5,7 +5,7 @@ import { useAuthStore } from "../../store";
 import FormErrors from "../shared/FormErrors";
 
 function Create() {
-    const user = useAuthStore((state) => state.user);
+    const currentUser = useAuthStore((state) => state.currentUser);
     const [name, setName] = useState("");
     const [errors, setErrors] = useState([]);
 
@@ -19,8 +19,8 @@ function Create() {
                 _id: res.data.room._id,
                 name: res.data.room.name,
                 admin: {
-                    _id: user._id,
-                    username: user.username,
+                    _id: currentUser._id,
+                    username: currentUser.username,
                 },
             };
             socket.emit("createRoom", room);

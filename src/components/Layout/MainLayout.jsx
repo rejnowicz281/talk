@@ -6,8 +6,8 @@ import { useAuthStore, useNavbarStore } from "../../store";
 import CreateRoom from "../Room/Create";
 
 function MainLayout() {
-    const { user, logout } = useAuthStore((state) => ({
-        user: state.user,
+    const { currentUser, logout } = useAuthStore((state) => ({
+        currentUser: state.currentUser,
         logout: state.logout,
     }));
 
@@ -55,9 +55,9 @@ function MainLayout() {
     return (
         <>
             <button onClick={testMessage}>Click to broadcast a socket message!</button>
-            {user && (
+            {currentUser && (
                 <h1>
-                    Welcome, <Link to={"/talk/users/" + user.username}>{user.username}</Link>
+                    Welcome, <Link to={"/talk/users/" + currentUser.username}>{currentUser.username}</Link>
                 </h1>
             )}
             <aside>

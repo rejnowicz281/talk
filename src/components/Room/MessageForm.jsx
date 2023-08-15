@@ -6,7 +6,7 @@ import { useAuthStore } from "../../store/";
 import FormErrors from "../shared/FormErrors";
 
 function MessageForm() {
-    const user = useAuthStore((state) => state.user);
+    const currentUser = useAuthStore((state) => state.currentUser);
     const { id } = useParams();
     const [text, setText] = useState("");
     const [errors, setErrors] = useState([]);
@@ -19,7 +19,7 @@ function MessageForm() {
         if (res.status === 200) {
             const message = {
                 ...res.data.messageBody,
-                user,
+                user: currentUser,
             };
 
             socket.emit("addMessage", id, message);

@@ -11,7 +11,7 @@ import Room from "./Room/Room";
 import Profile from "./User/Profile";
 
 function App() {
-    const user = useAuthStore((state) => state.user);
+    const currentUser = useAuthStore((state) => state.currentUser);
     const logout = useAuthStore((state) => state.logout);
     const setUserFromToken = useAuthStore((state) => state.setUserFromToken);
     const [tokenChecked, setTokenChecked] = useState(false);
@@ -38,7 +38,7 @@ function App() {
         return (
             <BrowserRouter>
                 <Routes>
-                    {user ? (
+                    {currentUser ? (
                         <Route element={<MainLayout />}>
                             <Route path="/*" element={<Navigate to="/talk/home" />} />
                             <Route path="/talk/home" element={<Home />} />

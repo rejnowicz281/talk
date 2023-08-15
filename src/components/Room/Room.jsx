@@ -10,7 +10,7 @@ import Update from "./Update";
 function Room() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const user = useAuthStore((state) => state.user);
+    const currentUser = useAuthStore((state) => state.currentUser);
     const [room, setRoom] = useState(null);
     const removeNavbarRoom = useNavbarStore((state) => state.removeNavbarRoom);
     const updateNavbarRoom = useNavbarStore((state) => state.updateNavbarRoom);
@@ -21,7 +21,7 @@ function Room() {
             const res = await fetchRoom(id);
 
             if (res.status === 200) {
-                if (user._id == res.data.room.admin._id) setIsAdmin(true);
+                if (currentUser._id == res.data.room.admin._id) setIsAdmin(true);
 
                 setRoom(res.data.room);
             } else {
@@ -96,7 +96,7 @@ function Room() {
     async function joinRoom() {
         const res = await fetchJoinRoom(id);
 
-        if (res.status === 200) socket.emit("addChatter", id, user);
+        if (res.status === 200) socket.emit("addChatter", id, currentUser);
     }
 
     async function deleteMessage(messageId) {
@@ -115,8 +115,8 @@ function Room() {
                 {isAdmin && <Delete />}
                 {isAdmin && <Update setRoomName={setRoomName} />}
                 {!isAdmin &&
-                    (room.chatters.some((chatter) => chatter._id === user._id) ? (
-                        <button onClick={() => leaveRoom(user._id)}>Leave Room</button>
+                    (room.chatters.some((chatter) => chatter._id === currentUser._id) ? (
+                        <button onClick={() => leaveRoom(currentUser._id)}>Leave Room</button>
                     ) : (
                         <button onClick={() => joinRoom()}>Join Room</button>
                     ))}
@@ -132,13 +132,15 @@ function Room() {
                     ))}
                 </ul>
                 <hr />
-                {room.chatters.some((chatter) => chatter._id === user._id) && <MessageForm addMessage={addMessage} />}
+                {room.chatters.some((chatter) => chatter._id === currentUser._id) && (
+                    <MessageForm addMessage={addMessage} />
+                )}
                 <ul>
                     {room.messages.map((message) => (
                         <li key={message._id}>
                             <Link to={"/talk/users/" + message.user.username}>{message.user.username}</Link>:{" "}
                             {message.text}
-                            {(isAdmin || message.user._id === user._id) && (
+                            {(isAdmin || message.user._id === currentUser._id) && (
                                 <button onClick={() => deleteMessage(message._id)}>Delete</button>
                             )}
                         </li>

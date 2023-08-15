@@ -3,10 +3,10 @@ import { create } from "zustand";
 import { apiLogin, apiRegister } from "../helpers/API";
 
 export const useAuthStore = create((set, get) => ({
-    user: null,
+    currentUser: null,
     logout: () => {
         localStorage.removeItem("token");
-        set({ user: null });
+        set({ currentUser: null });
     },
     login: async (email, password) => {
         const response = await apiLogin(email, password);
@@ -36,7 +36,7 @@ export const useAuthStore = create((set, get) => ({
             username: decodedToken.username,
         };
 
-        set({ user: decodedUser });
+        set({ currentUser: decodedUser });
     },
 }));
 
