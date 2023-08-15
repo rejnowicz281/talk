@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserData } from "../../../helpers/API";
 import socket from "../../socket";
-import { useRoomsStore } from "../../store";
+import { useNavbarStore } from "../../store";
 
 function Profile() {
     const navigate = useNavigate();
     const { username } = useParams();
     const [user, setUser] = useState(null);
-    const removeRoom = useRoomsStore((state) => state.removeRoom);
-    const updateRoom = useRoomsStore((state) => state.updateRoom);
+    const removeNavbarRoom = useNavbarStore((state) => state.removeNavbarRoom);
+    const updateNavbarRoom = useNavbarStore((state) => state.updateNavbarRoom);
 
     useEffect(() => {
         async function getUser() {
@@ -19,16 +19,16 @@ function Profile() {
             else navigate("/talk");
         }
 
-        getUser();
-
         socket.on("removeRoom", (roomId) => {
-            removeRoom(roomId);
+            removeNavbarRoom(roomId);
             removeChatterRoom(roomId);
         });
         socket.on("updateRoom", (roomId, newName) => {
-            updateRoom(roomId, newName);
+            updateNavbarRoom(roomId, newName);
             updateChatterRoom(roomId, newName);
         });
+
+        getUser();
 
         return () => {
             socket.off("removeRoom");

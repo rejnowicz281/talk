@@ -40,10 +40,11 @@ export const useAuthStore = create((set, get) => ({
     },
 }));
 
-export const useRoomsStore = create((set, get) => ({
-    rooms: [],
-    setRooms: (rooms) => set({ rooms }),
-    addRoom: (room) => set({ rooms: [...get().rooms, room] }),
-    removeRoom: (id) => set({ rooms: get().rooms.filter((room) => room._id !== id) }),
-    updateRoom: (id, name) => set({ rooms: get().rooms.map((room) => (room._id === id ? { ...room, name } : room)) }),
+export const useNavbarStore = create((set, get) => ({
+    navbarRooms: [],
+    setNavbarRooms: (rooms) => set({ navbarRooms: rooms }),
+    addNavbarRoom: (room) => set({ navbarRooms: [...get().navbarRooms, room] }),
+    removeNavbarRoom: (id) => set({ navbarRooms: get().navbarRooms.filter((room) => room._id !== id) }),
+    updateNavbarRoom: (id, name) =>
+        set({ navbarRooms: get().navbarRooms.map((room) => (room._id === id ? { ...room, name } : room)) }),
 }));

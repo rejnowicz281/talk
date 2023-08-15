@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchDeleteMessage, fetchJoinRoom, fetchLeaveRoom, fetchRoom } from "../../../helpers/API";
 import socket from "../../socket";
-import { useAuthStore, useRoomsStore } from "../../store";
+import { useAuthStore, useNavbarStore } from "../../store";
 import Delete from "./Delete";
 import MessageForm from "./MessageForm";
 import Update from "./Update";
@@ -12,8 +12,8 @@ function Room() {
     const navigate = useNavigate();
     const user = useAuthStore((state) => state.user);
     const [room, setRoom] = useState(null);
-    const removeRoom = useRoomsStore((state) => state.removeRoom);
-    const updateRoom = useRoomsStore((state) => state.updateRoom);
+    const removeNavbarRoom = useNavbarStore((state) => state.removeNavbarRoom);
+    const updateNavbarRoom = useNavbarStore((state) => state.updateNavbarRoom);
     const [isAdmin, setIsAdmin] = useState(false);
     const [mounted, setMounted] = useState(false);
 
@@ -38,11 +38,11 @@ function Room() {
         socket.on("addChatter", (user) => addChatter(user));
         socket.on("removeRoom", (roomId) => {
             if (roomId === id) navigate("/talk");
-            removeRoom(roomId);
+            removeNavbarRoom(roomId);
         });
         socket.on("updateRoom", (roomId, newName) => {
             if (roomId === id) setRoomName(newName);
-            updateRoom(roomId, newName);
+            updateNavbarRoom(roomId, newName);
         });
 
         getRoom();
