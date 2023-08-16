@@ -18,26 +18,24 @@ function MainLayout() {
     const addNavbarRoom = useNavbarStore((state) => state.addNavbarRoom);
     const updateNavbarRoom = useNavbarStore((state) => state.updateNavbarRoom);
 
-    // Initial socket config for all components - can be overwritten in each component
+    // Initial socket config for all components under MainLayout
     useEffect(() => {
         socket.on("testMessage", (message) => {
             console.log(message);
         });
-        socket.on("removeRoom", (roomId) => {
-            removeNavbarRoom(roomId);
-        });
-        socket.on("createRoom", (room) => {
-            addNavbarRoom(room);
-        });
-        socket.on("updateRoom", (roomId, newName) => {
-            updateNavbarRoom(roomId, newName);
-        });
+
+        const navbarListener = (event, ...args) => {
+            if (event == "updateRoom") updateNavbarRoom(args[0], args[1]);
+            if (event == "removeRoom") removeNavbarRoom(args[0]);
+            if (event == "createRoom") addNavbarRoom(args[0]);
+        };
+
+        // on any room event, update navbarRooms
+        socket.onAny(navbarListener);
 
         return () => {
             socket.off("testMessage");
-            socket.off("removeRoom");
-            socket.off("createRoom");
-            socket.off("updateRoom");
+            socket.offAny(navbarListener);
         };
     }, []);
 

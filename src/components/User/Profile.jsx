@@ -2,13 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserData } from "../../../helpers/API";
 import socket from "../../socket";
-import { useAuthStore, useNavbarStore } from "../../store";
+import { useAuthStore } from "../../store";
 
 function Profile() {
-    const removeNavbarRoom = useNavbarStore((state) => state.removeNavbarRoom);
-    const updateNavbarRoom = useNavbarStore((state) => state.updateNavbarRoom);
-    const addNavbarRoom = useNavbarStore((state) => state.addNavbarRoom);
-
     const currentUser = useAuthStore((state) => state.currentUser);
 
     const navigate = useNavigate();
@@ -17,15 +13,12 @@ function Profile() {
 
     useEffect(() => {
         socket.on("createRoom", (room) => {
-            addNavbarRoom(room);
             addChatterRoom(room);
         });
         socket.on("removeRoom", (roomId) => {
-            removeNavbarRoom(roomId);
             removeChatterRoom(roomId);
         });
         socket.on("updateRoom", (roomId, newName) => {
-            updateNavbarRoom(roomId, newName);
             updateChatterRoom(roomId, newName);
         });
 
