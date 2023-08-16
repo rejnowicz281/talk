@@ -141,7 +141,10 @@ function Room() {
                 <ul>
                     {room.messages.map((message) => (
                         <li key={message._id}>
-                            <UserBox user={message.user} />: {message.text}
+                            <UserBox user={message.user} />:
+                            <div>
+                                {message.text} {message.photo && <img src={message.photo} />}
+                            </div>
                             {(isAdmin || message.user._id === currentUser._id) && (
                                 <button onClick={() => deleteMessage(message._id)}>Delete</button>
                             )}

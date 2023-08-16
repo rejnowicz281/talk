@@ -140,10 +140,16 @@ export async function fetchJoinRoom(roomId) {
     }
 }
 
-export async function fetchCreateMessage(roomId, text) {
+export async function fetchCreateMessage(roomId, text, photo) {
     try {
-        const response = await apiAuth.post(`rooms/${roomId}/messages`, {
-            text,
+        const formData = new FormData();
+        formData.append("text", text);
+        formData.append("photo", photo);
+
+        const response = await apiAuth.post(`rooms/${roomId}/messages`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
         });
 
         return response;
