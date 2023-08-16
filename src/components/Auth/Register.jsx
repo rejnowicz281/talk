@@ -7,12 +7,13 @@ function Register() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
+    const [avatar, setAvatar] = useState(null);
     const [errors, setErrors] = useState([]);
     const register = useAuthStore((state) => state.register);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await register(email, username, password, passwordConfirm);
+        const res = await register(email, username, password, passwordConfirm, avatar);
 
         if (res.status !== 200) setErrors(res.data.errors);
     };
@@ -58,6 +59,13 @@ function Register() {
                     placeholder="Confirm your password"
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
+                />
+                <label htmlFor="avatar">Avatar</label>
+                <input
+                    type="file"
+                    id="avatar"
+                    placeholder="Upload your avatar"
+                    onChange={(e) => setAvatar(e.target.files[0])}
                 />
                 <button type="submit">Log In</button>
             </form>

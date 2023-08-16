@@ -26,13 +26,19 @@ export async function apiLogin(email, password) {
     }
 }
 
-export async function apiRegister(username, email, password, password_confirm) {
+export async function apiRegister(email, username, password, password_confirm, avatar) {
     try {
-        const response = await api.post("register", {
-            username,
-            email,
-            password,
-            password_confirm,
+        const formData = new FormData();
+        formData.append("email", email);
+        formData.append("username", username);
+        formData.append("password", password);
+        formData.append("password_confirm", password_confirm);
+        formData.append("avatar", avatar);
+
+        const response = await api.post("register", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
         });
 
         return response;

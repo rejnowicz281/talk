@@ -4,6 +4,7 @@ import { fetchRooms } from "../../../helpers/API";
 import socket from "../../socket";
 import { useAuthStore, useNavbarStore } from "../../store";
 import CreateRoom from "../Room/Create";
+import UserBox from "../User/UserBox";
 
 function MainLayout() {
     const { currentUser, logout } = useAuthStore((state) => ({
@@ -57,7 +58,7 @@ function MainLayout() {
             <button onClick={testMessage}>Click to broadcast a socket message!</button>
             {currentUser && (
                 <h1>
-                    Welcome, <Link to={"/talk/users/" + currentUser.username}>{currentUser.username}</Link>
+                    Welcome, <UserBox user={currentUser} />
                 </h1>
             )}
             <aside>

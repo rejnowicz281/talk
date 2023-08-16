@@ -18,8 +18,8 @@ export const useAuthStore = create((set, get) => ({
 
         return response;
     },
-    register: async (email, username, password, password_confirm) => {
-        const response = await apiRegister(username, email, password, password_confirm);
+    register: async (email, username, password, password_confirm, avatar) => {
+        const response = await apiRegister(email, username, password, password_confirm, avatar);
 
         if (response.status === 200) {
             localStorage.setItem("token", response.data.token);
@@ -34,6 +34,7 @@ export const useAuthStore = create((set, get) => ({
         const decodedUser = {
             _id: decodedToken.sub,
             username: decodedToken.username,
+            avatar: decodedToken.avatar,
         };
 
         set({ currentUser: decodedUser });

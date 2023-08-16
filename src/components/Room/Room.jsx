@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchDeleteMessage, fetchJoinRoom, fetchLeaveRoom, fetchRoom } from "../../../helpers/API";
 import socket from "../../socket";
 import { useAuthStore, useNavbarStore } from "../../store";
+import UserBox from "../User/UserBox";
 import Delete from "./Delete";
 import MessageForm from "./MessageForm";
 import Update from "./Update";
@@ -110,7 +111,7 @@ function Room() {
             <div>
                 <h1>{room.name}</h1>
                 <h2>
-                    Admin: <Link to={"/talk/users/" + room.admin.username}>{room.admin.username}</Link>
+                    Admin: <UserBox user={room.admin} />
                 </h2>
                 {isAdmin && <Delete />}
                 {isAdmin && <Update setRoomName={setRoomName} />}
@@ -124,7 +125,7 @@ function Room() {
                 <ul>
                     {room.chatters.map((chatter) => (
                         <li key={chatter._id}>
-                            <Link to={"/talk/users/" + chatter.username}>{chatter.username}</Link>
+                            <UserBox user={chatter} />
                             {isAdmin && chatter._id !== room.admin._id && (
                                 <button onClick={() => leaveRoom(chatter._id)}>Kick</button>
                             )}
@@ -138,8 +139,7 @@ function Room() {
                 <ul>
                     {room.messages.map((message) => (
                         <li key={message._id}>
-                            <Link to={"/talk/users/" + message.user.username}>{message.user.username}</Link>:{" "}
-                            {message.text}
+                            <UserBox user={message.user} />: {message.text}
                             {(isAdmin || message.user._id === currentUser._id) && (
                                 <button onClick={() => deleteMessage(message._id)}>Delete</button>
                             )}
