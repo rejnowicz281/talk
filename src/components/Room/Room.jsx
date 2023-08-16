@@ -18,18 +18,6 @@ function Room() {
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        async function getRoom() {
-            const res = await fetchRoom(id);
-
-            if (res.status === 200) {
-                if (currentUser._id == res.data.room.admin._id) setIsAdmin(true);
-
-                setRoom(res.data.room);
-            } else {
-                navigate("/talk");
-            }
-        }
-
         socket.emit("joinRoom", id);
         socket.on("addMessage", (message) => addMessage(message));
         socket.on("removeMessage", (messageId) => removeMessage(messageId));
@@ -44,10 +32,7 @@ function Room() {
             updateNavbarRoom(roomId, newName);
         });
 
-        getRoom();
-
         return () => {
-            setIsAdmin(false);
             socket.off("addMessage");
             socket.off("removeMessage");
             socket.off("removeChatter");
@@ -56,6 +41,26 @@ function Room() {
             socket.off("removeRoom");
             socket.off("updateRoom");
             socket.emit("leaveRoom", id);
+        };
+    }, [id]);
+
+    useEffect(() => {
+        async function getRoom() {
+            const res = await fetchRoom(id);
+
+            if (res.status === 200) {
+                if (currentUser._id == res.data.room.admin._id) setIsAdmin(true);
+
+                setRoom(res.data.room);
+            } else {
+                navigate("/talk");
+            }
+        }
+
+        getRoom();
+
+        return () => {
+            setIsAdmin(false);
         };
     }, [id]);
 

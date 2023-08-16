@@ -16,13 +16,6 @@ function Profile() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        async function getUser() {
-            const res = await fetchUserData(username);
-
-            if (res.status === 200) setUser(res.data.user);
-            else navigate("/talk");
-        }
-
         socket.on("createRoom", (room) => {
             addNavbarRoom(room);
             addChatterRoom(room);
@@ -36,13 +29,22 @@ function Profile() {
             updateChatterRoom(roomId, newName);
         });
 
-        getUser();
-
         return () => {
             socket.off("removeRoom");
             socket.off("updateRoom");
             socket.off("createRoom");
         };
+    }, []);
+
+    useEffect(() => {
+        async function getUser() {
+            const res = await fetchUserData(username);
+
+            if (res.status === 200) setUser(res.data.user);
+            else navigate("/talk");
+        }
+
+        getUser();
     }, [username]);
 
     function addChatterRoom(room) {

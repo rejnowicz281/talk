@@ -18,14 +18,8 @@ function MainLayout() {
     const addNavbarRoom = useNavbarStore((state) => state.addNavbarRoom);
     const updateNavbarRoom = useNavbarStore((state) => state.updateNavbarRoom);
 
+    // Initial socket config for all components - can be overwritten in each component
     useEffect(() => {
-        async function getRooms() {
-            const res = await fetchRooms();
-
-            if (res.status === 200) setNavbarRooms(res.data.rooms);
-        }
-
-        // Initial socket config for all components - can be overwritten in each component
         socket.on("testMessage", (message) => {
             console.log(message);
         });
@@ -39,14 +33,22 @@ function MainLayout() {
             updateNavbarRoom(roomId, newName);
         });
 
-        getRooms();
-
         return () => {
             socket.off("testMessage");
             socket.off("removeRoom");
             socket.off("createRoom");
             socket.off("updateRoom");
         };
+    }, []);
+
+    useEffect(() => {
+        async function getRooms() {
+            const res = await fetchRooms();
+
+            if (res.status === 200) setNavbarRooms(res.data.rooms);
+        }
+
+        getRooms();
     }, []);
 
     function testMessage() {
