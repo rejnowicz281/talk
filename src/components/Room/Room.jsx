@@ -143,7 +143,7 @@ function Room() {
                         <li key={message._id}>
                             <UserBox user={message.user} />:
                             <div>
-                                {message.text} {message.photo && <img src={message.photo} />}
+                                {message.text} {message.photo && <img src={message.photo.url} />}
                             </div>
                             {(isAdmin || message.user._id === currentUser._id) && (
                                 <button onClick={() => deleteMessage(message._id)}>Delete</button>
