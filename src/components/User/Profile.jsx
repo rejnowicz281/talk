@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserData } from "../../../helpers/API";
 import socket from "../../socket";
-import { useNavbarStore } from "../../store";
+import { useAuthStore, useNavbarStore } from "../../store";
 
 function Profile() {
+    const removeNavbarRoom = useNavbarStore((state) => state.removeNavbarRoom);
+    const updateNavbarRoom = useNavbarStore((state) => state.updateNavbarRoom);
+    const addNavbarRoom = useNavbarStore((state) => state.addNavbarRoom);
+
+    const currentUser = useAuthStore((state) => state.currentUser);
+
     const navigate = useNavigate();
     const { username } = useParams();
     const [user, setUser] = useState(null);
-    const removeNavbarRoom = useNavbarStore((state) => state.removeNavbarRoom);
-    const updateNavbarRoom = useNavbarStore((state) => state.updateNavbarRoom);
 
     useEffect(() => {
         async function getUser() {
@@ -19,6 +23,10 @@ function Profile() {
             else navigate("/talk");
         }
 
+        socket.on("createRoom", (room) => {
+            addNavbarRoom(room);
+            addChatterRoom(room);
+        });
         socket.on("removeRoom", (roomId) => {
             removeNavbarRoom(roomId);
             removeChatterRoom(roomId);
@@ -33,8 +41,16 @@ function Profile() {
         return () => {
             socket.off("removeRoom");
             socket.off("updateRoom");
+            socket.off("createRoom");
         };
     }, [username]);
+
+    function addChatterRoom(room) {
+        setUser((prev) => ({
+            ...prev,
+            chatterRooms: [...prev.chatterRooms, room],
+        }));
+    }
 
     function removeChatterRoom(roomId) {
         setUser((prev) => ({
@@ -67,7 +83,7 @@ function Profile() {
                     {user.chatterRooms.map((room) => (
                         <li key={room._id}>
                             <Link to={"/talk/rooms/" + room._id}>
-                                {room.name} | Admin ({room.admin.username})
+                                {room.name} {room.admin == currentUser._id && "(admin)"}
                             </Link>
                         </li>
                     ))}

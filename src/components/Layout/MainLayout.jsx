@@ -67,9 +67,7 @@ function MainLayout() {
                 <ul>
                     {navbarRooms.map((room) => (
                         <li key={room._id}>
-                            <Link to={"/talk/rooms/" + room._id}>
-                                {room.name} | Admin ({room.admin.username})
-                            </Link>
+                            <Link to={"/talk/rooms/" + room._id}>{room.name}</Link>
                         </li>
                     ))}
                 </ul>
