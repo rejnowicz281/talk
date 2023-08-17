@@ -25,7 +25,7 @@ function Login() {
 
     return (
         <div className="auth-box">
-            {error && <div className="text-rosy">{error}</div>}
+            {error && <div className="text-center text-rosy">{error}</div>}
             <form className="auth-form" onSubmit={handleSubmit}>
                 <div className="form-field">
                     <label htmlFor="email">Email</label>
@@ -51,9 +51,11 @@ function Login() {
                     Log In
                 </button>
             </form>
-            <Link to="/talk/register" className="auth-link">
-                Register <span className="auth-link-arrow">→</span>
-            </Link>
+            <div className="auth-link-box">
+                <Link to="/talk/register" className="auth-link">
+                    Register <span className="auth-link-arrow">→</span>
+                </Link>
+            </div>
         </div>
     );
 }

@@ -1,0 +1,26 @@
+.photo-picker-box {
+    display: flex;
+    align-items: center;
+}
+
+.photo-picker:hover {
+    opacity: 0.8;
+}
+
+.photo-picker {
+    font-size: 18px;
+}
+
+.cancel-image-button {
+    border: none;
+    background: none;
+    color: red;
+    font-size: 30px;
+    font-weight: bold;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.cancel-image-button:hover {
+    color: rgb(100, 58, 58);
+}

@@ -45,3 +45,7 @@ input[type="email"]:focus {
 .text-rosy {
     color: rgb(197, 129, 129);
 }
+
+.text-center {
+    text-align: center;
+}
