@@ -15,12 +15,7 @@
 }
 
 .main-sidebar {
-    width: 300px;
-}
-
-.main-content {
-    flex: 3;
-    background-color: rgb(11, 39, 39);
+    width: 370px;
 }
 
 .main-sidebar-buttons {
@@ -34,8 +29,8 @@
     background-color: inherit;
     border: none;
     color: white;
-    font-weight: 500;
-    padding: 10px 10px;
+    font-weight: bold;
+    padding: 20px 10px;
     cursor: pointer;
 }
 
@@ -43,15 +38,62 @@
     background-color: rgb(17, 70, 70);
 }
 
-/* first button border-radius top left, last button border-radius top-right */
 .main-sidebar-buttons > button:first-child {
-    border-top-left-radius: 15px;
+    border-top-left-radius: 20px;
 }
 
 .main-sidebar-buttons > button:last-child {
-    border-top-right-radius: 15px;
+    border-top-right-radius: 20px;
 }
 
 #active-navbar-button {
     background-color: #30302f;
+}
+
+.current-navbar-heading {
+    color: #a1a1a1;
+    background-color: rgb(10, 60, 70);
+    font-size: 20px;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 15px 0;
+    text-align: center;
+    border-radius: 0 0 20px 20px;
+}
+
+.navbar-room-link {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 20px 0;
+    color: rgb(196, 196, 196);
+    font-weight: bold;
+}
+
+.navbar-room-link:first-child {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.navbar-room-link:not(:last-child) {
+    border-bottom: 1px solid #353535;
+}
+
+.navbar-room-link:last-child {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.navbar-room-link:hover {
+    background-color: rgb(10, 60, 70);
+}
+
+.navbar-room-link-active {
+    background-color: rgb(10, 60, 70);
+}
+
+.main-content {
+    flex: 3;
+    background-color: rgb(11, 39, 39);
 }

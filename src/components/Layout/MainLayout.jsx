@@ -52,7 +52,7 @@ function MainLayout() {
                         onClick={() => setCurrentNavbar("users")}
                         type="button"
                     >
-                        Active Users({loggedUsers.length})
+                        Active Users ({loggedUsers.length})
                     </button>
                     <button type="button" className="logout-button" onClick={logout}>
                         Logout
