@@ -93,6 +93,10 @@
     background-color: rgb(10, 60, 70);
 }
 
+.navbar-active-user-container {
+    margin-bottom: 10px;
+}
+
 .main-content {
     flex: 3;
     background-color: rgb(11, 39, 39);

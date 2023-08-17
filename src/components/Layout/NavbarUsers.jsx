@@ -4,14 +4,12 @@ import UserBox from "../User/UserBox";
 function NavbarUsers({ loggedUsers }) {
     return (
         <nav>
-            <h2>Active users:</h2>
-            <ul>
-                {loggedUsers.map((user) => (
-                    <li key={user._id}>
-                        <UserBox user={user} />
-                    </li>
-                ))}
-            </ul>
+            <h2 className="current-navbar-heading">Active users</h2>
+            {loggedUsers.map((user) => (
+                <div className="navbar-active-user-container" key={user._id}>
+                    <UserBox user={user} />
+                </div>
+            ))}
         </nav>
     );
 }
