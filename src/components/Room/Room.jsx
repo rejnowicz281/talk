@@ -113,7 +113,7 @@ function Room() {
             <div>
                 <h1>{room.name}</h1>
                 <h2>
-                    Admin: <UserBox user={room.admin} />
+                    <UserBox user={room.admin} adminTag={true} />
                 </h2>
                 {isAdmin && <Delete />}
                 {isAdmin && <Update setRoomName={setRoomName} />}
@@ -127,7 +127,7 @@ function Room() {
                 <ul>
                     {room.chatters.map((chatter) => (
                         <li key={chatter._id}>
-                            <UserBox user={chatter} />
+                            <UserBox user={chatter} adminTag={chatter._id === room.admin._id} />
                             {isAdmin && chatter._id !== room.admin._id && (
                                 <button onClick={() => leaveRoom(chatter._id)}>Kick</button>
                             )}
