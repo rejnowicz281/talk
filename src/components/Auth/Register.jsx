@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { apiRegister } from "../../../helpers/API";
 import { useAuthStore } from "../../store";
 
 function Register() {
@@ -9,13 +10,17 @@ function Register() {
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [avatar, setAvatar] = useState(null);
     const [errors, setErrors] = useState([]);
-    const register = useAuthStore((state) => state.register);
-
+    const loginWithToken = useAuthStore((state) => state.loginWithToken);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await register(email, username, password, passwordConfirm, avatar);
+        const res = await apiRegister(email, username, password, passwordConfirm, avatar);
 
-        if (res.status !== 200) setErrors(res.data.errors);
+        if (res.status == 200) {
+            localStorage.setItem("token", res.data.token);
+            loginWithToken(res.data.token);
+        } else {
+            setErrors(res.data.errors);
+        }
     };
 
     return (

@@ -1,18 +1,25 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { apiLogin } from "../../../helpers/API";
 import { useAuthStore } from "../../store";
 
 function Login() {
+    const loginWithToken = useAuthStore((state) => state.loginWithToken);
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
-    const login = useAuthStore((state) => state.login);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await login(email, password);
+        const res = await apiLogin(email, password);
 
-        if (res.status !== 200) setError(res.data.message);
+        if (res.status == 200) {
+            localStorage.setItem("token", res.data.token);
+            loginWithToken(res.data.token);
+        } else {
+            setError(res.data.message);
+        }
     };
 
     return (

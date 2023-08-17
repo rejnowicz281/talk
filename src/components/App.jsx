@@ -13,7 +13,7 @@ import Profile from "./User/Profile";
 function App() {
     const currentUser = useAuthStore((state) => state.currentUser);
     const logout = useAuthStore((state) => state.logout);
-    const setUserFromToken = useAuthStore((state) => state.setUserFromToken);
+    const loginWithToken = useAuthStore((state) => state.loginWithToken);
     const [tokenChecked, setTokenChecked] = useState(false);
 
     useEffect(() => {
@@ -25,7 +25,7 @@ function App() {
                 const isExpired = isTokenExpired(token);
 
                 if (isExpired) logout();
-                else await setUserFromToken(token);
+                else await loginWithToken(token);
             }
 
             setTokenChecked(true);
