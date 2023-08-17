@@ -2,10 +2,11 @@ import { create } from "zustand";
 import getUserFromToken from "../helpers/getUserFromToken";
 import socket from "./socket";
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create((set, get) => ({
     currentUser: null,
     logout: () => {
         localStorage.removeItem("token");
+        socket.emit("logout", get().currentUser._id);
         set({ currentUser: null });
     },
     loginWithToken: async (token) => {
