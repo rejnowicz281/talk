@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { fetchRooms } from "../../../helpers/API";
 import socket from "../../socket";
@@ -11,6 +11,7 @@ function MainLayout() {
         currentUser: state.currentUser,
         logout: state.logout,
     }));
+    const [loggedUsers, setLoggedUsers] = useState([]);
 
     const navbarRooms = useNavbarStore((state) => state.navbarRooms);
     const setNavbarRooms = useNavbarStore((state) => state.setNavbarRooms);
@@ -22,6 +23,9 @@ function MainLayout() {
     useEffect(() => {
         socket.on("testMessage", (message) => {
             console.log(message);
+        });
+        socket.on("updateLoggedUsers", (users) => {
+            setLoggedUsers(users);
         });
 
         const navbarListener = (event, ...args) => {
@@ -35,6 +39,7 @@ function MainLayout() {
 
         return () => {
             socket.off("testMessage");
+            socket.off("updateLoggedUsers");
             socket.offAny(navbarListener);
         };
     }, []);
@@ -64,6 +69,15 @@ function MainLayout() {
             <aside>
                 <button onClick={logout}>Logout</button>
                 <CreateRoom />
+                <h2>Active users:</h2>
+                <ul>
+                    {loggedUsers.map((user) => (
+                        <li key={user._id}>
+                            <UserBox user={user} />
+                        </li>
+                    ))}
+                </ul>
+                <h2>Rooms:</h2>
                 <ul>
                     {navbarRooms.map((room) => (
                         <li key={room._id}>
