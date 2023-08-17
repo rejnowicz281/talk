@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
-import { fetchRooms } from "../../../helpers/API";
+import { Outlet } from "react-router-dom";
 import socket from "../../socket";
-import { useAuthStore, useNavbarStore } from "../../store";
-import CreateRoom from "../Room/Create";
+import { useAuthStore } from "../../store";
 import UserBox from "../User/UserBox";
+import "./Layout.css";
+import NavbarRooms from "./NavbarRooms";
+import NavbarUsers from "./NavbarUsers";
 
 function MainLayout() {
     const { currentUser, logout } = useAuthStore((state) => ({
@@ -12,14 +13,8 @@ function MainLayout() {
         logout: state.logout,
     }));
     const [loggedUsers, setLoggedUsers] = useState([]);
+    const [currentNavbar, setCurrentNavbar] = useState("rooms");
 
-    const navbarRooms = useNavbarStore((state) => state.navbarRooms);
-    const setNavbarRooms = useNavbarStore((state) => state.setNavbarRooms);
-    const removeNavbarRoom = useNavbarStore((state) => state.removeNavbarRoom);
-    const addNavbarRoom = useNavbarStore((state) => state.addNavbarRoom);
-    const updateNavbarRoom = useNavbarStore((state) => state.updateNavbarRoom);
-
-    // Initial socket config for all components under MainLayout
     useEffect(() => {
         socket.on("testMessage", (message) => {
             console.log(message);
@@ -28,30 +23,10 @@ function MainLayout() {
             setLoggedUsers(users);
         });
 
-        const navbarListener = (event, ...args) => {
-            if (event == "updateRoom") updateNavbarRoom(args[0], args[1]);
-            if (event == "removeRoom") removeNavbarRoom(args[0]);
-            if (event == "createRoom") addNavbarRoom(args[0]);
-        };
-
-        // on any room event, update navbarRooms
-        socket.onAny(navbarListener);
-
         return () => {
             socket.off("testMessage");
             socket.off("updateLoggedUsers");
-            socket.offAny(navbarListener);
         };
-    }, []);
-
-    useEffect(() => {
-        async function getRooms() {
-            const res = await fetchRooms();
-
-            if (res.status === 200) setNavbarRooms(res.data.rooms);
-        }
-
-        getRooms();
     }, []);
 
     function testMessage() {
@@ -59,35 +34,36 @@ function MainLayout() {
     }
 
     return (
-        <>
-            <button onClick={testMessage}>Click to broadcast a socket message!</button>
-            {currentUser && (
-                <h1>
-                    Welcome, <UserBox user={currentUser} />
-                </h1>
-            )}
-            <aside>
-                <button onClick={logout}>Logout</button>
-                <CreateRoom />
-                <h2>Active users:</h2>
-                <ul>
-                    {loggedUsers.map((user) => (
-                        <li key={user._id}>
-                            <UserBox user={user} />
-                        </li>
-                    ))}
-                </ul>
-                <h2>Rooms:</h2>
-                <ul>
-                    {navbarRooms.map((room) => (
-                        <li key={room._id}>
-                            <Link to={"/talk/rooms/" + room._id}>{room.name}</Link>
-                        </li>
-                    ))}
-                </ul>
+        <div className="main-container">
+            <aside className="main-sidebar">
+                <div className="text-center">
+                    <UserBox user={currentUser} />
+                </div>
+                <div className="main-sidebar-buttons">
+                    <button
+                        id={currentNavbar == "rooms" && "active-navbar-button"}
+                        onClick={() => setCurrentNavbar("rooms")}
+                        type="button"
+                    >
+                        Rooms
+                    </button>
+                    <button
+                        id={currentNavbar == "users" && "active-navbar-button"}
+                        onClick={() => setCurrentNavbar("users")}
+                        type="button"
+                    >
+                        Active Users({loggedUsers.length})
+                    </button>
+                    <button type="button" className="logout-button" onClick={logout}>
+                        Logout
+                    </button>
+                </div>
+                {currentNavbar === "rooms" ? <NavbarRooms /> : <NavbarUsers loggedUsers={loggedUsers} />}
             </aside>
-            <Outlet />
-        </>
+            <main className="main-content">
+                <Outlet />
+            </main>
+        </div>
     );
 }
 
