@@ -45,9 +45,9 @@ function NavbarRooms() {
     }
 
     return (
-        <nav>
+        <nav className="current-navbar">
             <h2 className="current-navbar-heading">Rooms</h2>
-            <div>
+            <div className="current-navbar-list">
                 {rooms.map((room) => (
                     <Link
                         className={`${activeRoom == room._id && "navbar-room-link-active"} navbar-room-link`}

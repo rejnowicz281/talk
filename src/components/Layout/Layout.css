@@ -9,13 +9,19 @@
 .main-container {
     min-height: 100vh;
     display: flex;
-    gap: 50px;
-    padding: 50px 100px;
+}
+
+.main-content,
+.main-sidebar {
+    padding: 100px 50px;
     box-sizing: border-box;
 }
 
 .main-sidebar {
-    width: 370px;
+    width: 500px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .main-sidebar-buttons {
@@ -50,6 +56,13 @@
     background-color: #30302f;
 }
 
+.current-navbar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
 .current-navbar-heading {
     color: #a1a1a1;
     background-color: rgb(10, 60, 70);
@@ -61,9 +74,14 @@
     border-radius: 0 0 20px 20px;
 }
 
+.current-navbar-list {
+    flex: 1;
+    overflow-y: scroll;
+}
+
 .navbar-room-link {
-    display: flex;
-    justify-content: center;
+    display: block;
+    text-align: center;
     cursor: pointer;
     text-decoration: none;
     padding: 20px 0;
