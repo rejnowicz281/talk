@@ -9,7 +9,7 @@ export const useAuthStore = create((set) => ({
         set({ currentUser: null });
     },
     loginWithToken: async (token) => {
-        const user = getUserFromToken(token);
+        const user = await getUserFromToken(token);
         socket.emit("login", user);
         set({ currentUser: user });
     },
