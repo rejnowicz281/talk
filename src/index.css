@@ -1,0 +1,47 @@
+body {
+    margin: 0;
+    background-color: rgb(28, 27, 34);
+    color: rgb(219, 223, 224);
+    font: 20px Arial, Helvetica, sans-serif;
+}
+
+a {
+    color: rgb(119, 130, 230);
+    transition: 0.1s;
+}
+
+a:hover {
+    color: rgb(155, 159, 199);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    display: block;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 18px;
+    margin: 5px 0;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+    outline: none;
+    border-color: rgb(202, 82, 45);
+}
+
+.form-field {
+    margin: 30px 0;
+}
+
+.form-field > label {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.text-rosy {
+    color: rgb(197, 129, 129);
+}

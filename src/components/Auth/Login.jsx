@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { apiLogin } from "../../../helpers/API";
 import { useAuthStore } from "../../store";
+import "./Auth.css";
 
 function Login() {
     const loginWithToken = useAuthStore((state) => state.loginWithToken);
@@ -23,30 +24,36 @@ function Login() {
     };
 
     return (
-        <div>
-            {error && <div>{error}</div>}
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email</label>
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <label htmlFor="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">Log In</button>
+        <div className="auth-box">
+            {error && <div className="text-rosy">{error}</div>}
+            <form className="auth-form" onSubmit={handleSubmit}>
+                <div className="form-field">
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
+                <div className="form-field">
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <button className="login-button" type="submit">
+                    Log In
+                </button>
             </form>
-            <div>
-                <Link to="/talk/register">Register →</Link>
-            </div>
+            <Link to="/talk/register" className="auth-link">
+                Register <span className="auth-link-arrow">→</span>
+            </Link>
         </div>
     );
 }

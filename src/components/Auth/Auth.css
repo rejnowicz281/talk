@@ -1,0 +1,45 @@
+.container {
+    /* centerize */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.auth-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.auth-link-arrow {
+    font-size: 30px;
+}
+
+.auth-box {
+    width: 400px;
+    max-width: 100%;
+}
+
+.auth-form {
+    margin-bottom: 50px;
+}
+
+/* Login */
+
+.login-button {
+    background-color: rgb(202, 82, 45);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.1s;
+    width: 100%;
+}
+
+.login-button:hover {
+    background-color: rgb(153, 90, 70);
+}
