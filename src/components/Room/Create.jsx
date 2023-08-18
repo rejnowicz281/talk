@@ -3,7 +3,7 @@ import { fetchCreateRoom } from "../../../helpers/API";
 import socket from "../../socket";
 import FormErrors from "../shared/FormErrors";
 
-function Create() {
+function New() {
     const [name, setName] = useState("");
     const [errors, setErrors] = useState([]);
 
@@ -31,4 +31,4 @@ function Create() {
     );
 }
 
-export default Create;
+export default New;

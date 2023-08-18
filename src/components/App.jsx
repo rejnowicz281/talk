@@ -7,6 +7,7 @@ import Register from "./Auth/Register";
 import Home from "./Home/Home";
 import AuthLayout from "./Layout/AuthLayout";
 import MainLayout from "./Layout/MainLayout";
+import NewRoom from "./Room/Create";
 import Room from "./Room/Room";
 import Profile from "./User/Profile";
 
@@ -44,6 +45,7 @@ function App() {
                             <Route path="/talk/home" element={<Home />} />
                             <Route path="/talk/users/:username" element={<Profile />} />
                             <Route path="/talk/rooms/:id" element={<Room />} />
+                            <Route path="/talk/rooms/new" element={<NewRoom />} />
                         </Route>
                     ) : (
                         <Route element={<AuthLayout />}>

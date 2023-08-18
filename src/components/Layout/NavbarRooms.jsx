@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { fetchRooms } from "../../../helpers/API";
 import socket from "../../socket";
 
 function NavbarRooms() {
-    const { id } = useParams();
     const [rooms, setRooms] = useState([]);
 
     useEffect(() => {
@@ -46,7 +45,9 @@ function NavbarRooms() {
 
     return (
         <nav className="current-navbar">
-            <h2 className="current-navbar-heading">Rooms</h2>
+            <NavLink to="/talk/rooms/new" className="current-navbar-heading-link">
+                Create New Room
+            </NavLink>
             <div className="current-navbar-list">
                 {rooms.map((room) => (
                     <NavLink className="navbar-room-link" key={room._id} to={"/talk/rooms/" + room._id}>
