@@ -6,7 +6,7 @@ import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import AuthLayout from "./Layout/AuthLayout";
 import MainLayout from "./Layout/MainLayout";
-import NewRoom from "./Room/Create";
+import NewRoom from "./Room/New";
 import Room from "./Room/Room";
 import Profile from "./User/Profile";
 

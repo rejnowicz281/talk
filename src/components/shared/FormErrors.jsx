@@ -2,11 +2,13 @@ import PropTypes from "prop-types";
 
 function FormErrors({ errors }) {
     return (
-        <ul>
+        <>
             {errors.map((error) => (
-                <li key={error.msg}>{error.msg}</li>
+                <div className="text-rosy" key={error.msg}>
+                    {error.msg}
+                </div>
             ))}
-        </ul>
+        </>
     );
 }
 

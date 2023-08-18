@@ -1,0 +1,26 @@
+/* New Room */
+.new-room-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 300px;
+}
+
+.new-room-form {
+    margin-top: 20px;
+}
+
+.new-room-input {
+    background-color: inherit;
+    color: white;
+}
+
+.new-room-submit {
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 20px;
+    border: none;
+    margin-top: 30px;
+}
