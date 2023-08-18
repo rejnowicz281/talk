@@ -107,7 +107,7 @@
     background-color: rgb(10, 60, 70);
 }
 
-.navbar-room-link-active {
+.navbar-room-link.active {
     background-color: rgb(10, 60, 70);
 }
 

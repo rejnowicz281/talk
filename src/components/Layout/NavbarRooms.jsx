@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { fetchRooms } from "../../../helpers/API";
 import socket from "../../socket";
 
 function NavbarRooms() {
     const { id } = useParams();
     const [rooms, setRooms] = useState([]);
-    const [activeRoom, setActiveRoom] = useState(null);
-
-    useEffect(() => {
-        if (id) setActiveRoom(id);
-    }, [id]);
 
     useEffect(() => {
         const navbarListener = (event, ...args) => {
@@ -54,13 +49,9 @@ function NavbarRooms() {
             <h2 className="current-navbar-heading">Rooms</h2>
             <div className="current-navbar-list">
                 {rooms.map((room) => (
-                    <Link
-                        className={`${activeRoom == room._id && "navbar-room-link-active"} navbar-room-link`}
-                        key={room._id}
-                        to={"/talk/rooms/" + room._id}
-                    >
+                    <NavLink className="navbar-room-link" key={room._id} to={"/talk/rooms/" + room._id}>
                         {room.name}
-                    </Link>
+                    </NavLink>
                 ))}
             </div>
         </nav>
