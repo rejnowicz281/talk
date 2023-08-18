@@ -40,7 +40,7 @@ function NavbarRooms() {
     }
 
     function addRoom(room) {
-        setRooms((rooms) => [...rooms, room]);
+        setRooms((rooms) => [room, ...rooms]);
     }
 
     return (
