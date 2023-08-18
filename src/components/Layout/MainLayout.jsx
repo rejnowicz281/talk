@@ -31,21 +31,21 @@ function MainLayout() {
                 </div>
                 <div className="main-sidebar-buttons">
                     <button
-                        id={currentNavbar == "rooms" && "active-navbar-button"}
+                        id={currentNavbar == "rooms" ? "active-navbar-button" : undefined}
                         onClick={() => setCurrentNavbar("rooms")}
                         type="button"
                     >
                         Rooms
                     </button>
                     <button
-                        id={currentNavbar == "users" && "active-navbar-button"}
+                        id={currentNavbar == "users" ? "active-navbar-button" : undefined}
                         onClick={() => setCurrentNavbar("users")}
                         type="button"
                     >
                         Active Users ({loggedUsers.length})
                     </button>
                     <button
-                        id={currentNavbar == "logout" && "active-navbar-button"}
+                        id={currentNavbar == "logout" ? "active-navbar-button" : undefined}
                         onClick={() => setCurrentNavbar("logout")}
                         type="button"
                         className="logout-button"
