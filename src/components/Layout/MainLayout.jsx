@@ -4,14 +4,12 @@ import socket from "../../socket";
 import { useAuthStore } from "../../store";
 import UserBox from "../User/UserBox";
 import "./Layout.css";
+import NavbarLogout from "./NavbarLogout";
 import NavbarRooms from "./NavbarRooms";
 import NavbarUsers from "./NavbarUsers";
 
 function MainLayout() {
-    const { currentUser, logout } = useAuthStore((state) => ({
-        currentUser: state.currentUser,
-        logout: state.logout,
-    }));
+    const currentUser = useAuthStore((state) => state.currentUser);
     const [loggedUsers, setLoggedUsers] = useState([]);
     const [currentNavbar, setCurrentNavbar] = useState("rooms");
 
@@ -46,11 +44,22 @@ function MainLayout() {
                     >
                         Active Users ({loggedUsers.length})
                     </button>
-                    <button type="button" className="logout-button" onClick={logout}>
+                    <button
+                        id={currentNavbar == "logout" && "active-navbar-button"}
+                        onClick={() => setCurrentNavbar("logout")}
+                        type="button"
+                        className="logout-button"
+                    >
                         Logout
                     </button>
                 </div>
-                {currentNavbar === "rooms" ? <NavbarRooms /> : <NavbarUsers loggedUsers={loggedUsers} />}
+                {currentNavbar === "rooms" ? (
+                    <NavbarRooms />
+                ) : currentNavbar === "users" ? (
+                    <NavbarUsers loggedUsers={loggedUsers} />
+                ) : (
+                    <NavbarLogout />
+                )}
             </aside>
             <main className="main-content">
                 <Outlet />
