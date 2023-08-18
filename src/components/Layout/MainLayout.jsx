@@ -16,22 +16,14 @@ function MainLayout() {
     const [currentNavbar, setCurrentNavbar] = useState("rooms");
 
     useEffect(() => {
-        socket.on("testMessage", (message) => {
-            console.log(message);
-        });
         socket.on("updateLoggedUsers", (users) => {
             setLoggedUsers(users);
         });
 
         return () => {
-            socket.off("testMessage");
             socket.off("updateLoggedUsers");
         };
     }, []);
-
-    function testMessage() {
-        socket.emit("testMessage", "Client: Test Message");
-    }
 
     return (
         <div className="main-container">

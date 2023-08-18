@@ -4,7 +4,6 @@ import UserBox from "../User/UserBox";
 function NavbarUsers({ loggedUsers }) {
     return (
         <nav className="current-navbar">
-            <h2 className="current-navbar-heading">Active users</h2>
             <div className="current-navbar-list">
                 {loggedUsers.map((user) => (
                     <div className="navbar-active-user-container" key={user._id}>

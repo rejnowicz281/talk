@@ -45,7 +45,7 @@ function NavbarRooms() {
 
     return (
         <nav className="current-navbar">
-            <NavLink to="/talk/rooms/new" className="current-navbar-heading-link">
+            <NavLink to="/talk/rooms/new" className="current-navbar-heading-button">
                 Create New Room
             </NavLink>
             <div className="current-navbar-list">
