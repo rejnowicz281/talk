@@ -1,3 +1,4 @@
+/* UserBox */
 .userbox {
     display: inline-flex;
     align-items: center;
@@ -13,10 +14,48 @@
 .userbox > a {
     color: white;
     text-decoration: none;
-    font-size: 1.2rem;
     font-weight: 500;
 }
 
 .userbox > a:hover {
     color: rgb(206, 197, 197);
+}
+
+/* Profile */
+.profile-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-heading {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.profile-chatter-room-list {
+    flex: 1;
+    overflow: auto;
+}
+
+.profile-chatter-room-link {
+    color: inherit;
+    display: block;
+    text-decoration: none;
+    padding: 20px 0;
+    border-bottom: 1px solid #414141;
+}
+
+.profile-chatter-room-link-name {
+    font-size: 40px;
+}
+
+.profile-chatter-room-link-admin {
+    font-size: 15px;
+    margin-top: 10px;
+    color: #888888;
+}
+
+.profile-chatter-room-link:hover {
+    color: white;
 }

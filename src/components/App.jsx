@@ -4,7 +4,6 @@ import isTokenExpired from "../../helpers/isTokenExpired";
 import { useAuthStore } from "../store";
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
-import Home from "./Home/Home";
 import AuthLayout from "./Layout/AuthLayout";
 import MainLayout from "./Layout/MainLayout";
 import NewRoom from "./Room/Create";
@@ -41,8 +40,7 @@ function App() {
                 <Routes>
                     {currentUser ? (
                         <Route element={<MainLayout />}>
-                            <Route path="/*" element={<Navigate to="/talk/home" />} />
-                            <Route path="/talk/home" element={<Home />} />
+                            <Route path="/*" element={<Navigate to="/talk/rooms/new" />} />
                             <Route path="/talk/users/:username" element={<Profile />} />
                             <Route path="/talk/rooms/:id" element={<Room />} />
                             <Route path="/talk/rooms/new" element={<NewRoom />} />

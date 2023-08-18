@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserData } from "../../../helpers/API";
 import socket from "../../socket";
-import { useAuthStore } from "../../store";
+import UserBox from "./UserBox";
 
 function Profile() {
-    const currentUser = useAuthStore((state) => state.currentUser);
-
     const navigate = useNavigate();
     const { username } = useParams();
     const [user, setUser] = useState(null);
@@ -43,7 +41,7 @@ function Profile() {
     function addChatterRoom(room) {
         setUser((prev) => ({
             ...prev,
-            chatterRooms: [...prev.chatterRooms, room],
+            chatterRooms: [room, ...prev.chatterRooms],
         }));
     }
 
@@ -71,18 +69,19 @@ function Profile() {
 
     if (user) {
         return (
-            <div>
-                <h1>This is {username}'s Profile</h1>
-                <h2>A chatter in:</h2>
-                <ul>
+            <div className="profile-container">
+                <div className="text-center">
+                    <UserBox user={user} />
+                </div>
+                <h1 className="profile-heading">Chatter Rooms</h1>
+                <div className="profile-chatter-room-list">
                     {user.chatterRooms.map((room) => (
-                        <li key={room._id}>
-                            <Link to={"/talk/rooms/" + room._id}>
-                                {room.name} {room.admin == currentUser._id && "(admin)"}
-                            </Link>
-                        </li>
+                        <Link key={room._id} className="profile-chatter-room-link" to={"/talk/rooms/" + room._id}>
+                            <div className="profile-chatter-room-link-name">{room.name}</div>{" "}
+                            {room.admin == user._id && <div className="profile-chatter-room-link-admin">Admin</div>}
+                        </Link>
                     ))}
-                </ul>
+                </div>
             </div>
         );
     }
