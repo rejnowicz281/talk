@@ -4,7 +4,7 @@ import { fetchRooms } from "../../../helpers/API";
 import socket from "../../socket";
 
 function NavbarRooms() {
-    const [rooms, setRooms] = useState([]);
+    const [rooms, setRooms] = useState(null);
 
     useEffect(() => {
         const navbarListener = (event, ...args) => {
@@ -48,13 +48,17 @@ function NavbarRooms() {
             <NavLink to="/talk/rooms/new" className="current-navbar-heading-button">
                 Create New Room
             </NavLink>
-            <div className="current-navbar-list">
-                {rooms.map((room) => (
-                    <NavLink className="navbar-room-link" key={room._id} to={"/talk/rooms/" + room._id}>
-                        {room.name}
-                    </NavLink>
-                ))}
-            </div>
+            {rooms ? (
+                <div className="current-navbar-list">
+                    {rooms.map((room) => (
+                        <NavLink className="navbar-room-link" key={room._id} to={"/talk/rooms/" + room._id}>
+                            {room.name}
+                        </NavLink>
+                    ))}
+                </div>
+            ) : (
+                <div className="loading">Loading...</div>
+            )}
         </nav>
     );
 }

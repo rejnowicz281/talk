@@ -15,7 +15,6 @@ function Room() {
     const navigate = useNavigate();
     const [room, setRoom] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         socket.emit("joinRoom", id);
@@ -121,7 +120,7 @@ function Room() {
         if (res.status === 200) socket.emit("removeMessage", id, messageId);
     }
 
-    if (!room) return <div>Loading</div>;
+    if (!room) return <div className="loading">Loading...</div>;
 
     return (
         <div className="room-container">

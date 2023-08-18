@@ -3,6 +3,7 @@ body {
     background-color: rgb(28, 27, 34);
     color: rgb(219, 223, 224);
     font: 20px Arial, Helvetica, sans-serif;
+    overflow: hidden;
 }
 
 a {
@@ -12,6 +13,30 @@ a {
 
 a:hover {
     color: rgb(155, 159, 199);
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    height: 100%;
+    animation-name: wiggle;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes wiggle {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 h1,

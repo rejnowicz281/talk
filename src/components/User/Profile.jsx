@@ -67,24 +67,24 @@ function Profile() {
         }));
     }
 
-    if (user) {
-        return (
-            <div className="profile-container">
-                <div className="text-center">
-                    <UserBox user={user} />
-                </div>
-                <h1 className="profile-heading">Chatter Rooms</h1>
-                <div className="profile-chatter-room-list">
-                    {user.chatterRooms.map((room) => (
-                        <Link key={room._id} className="profile-chatter-room-link" to={"/talk/rooms/" + room._id}>
-                            <div className="profile-chatter-room-link-name">{room.name}</div>{" "}
-                            {room.admin == user._id && <div className="profile-chatter-room-link-admin">Admin</div>}
-                        </Link>
-                    ))}
-                </div>
+    if (!user) return <div className="loading">Loading...</div>;
+
+    return (
+        <div className="profile-container">
+            <div className="text-center">
+                <UserBox user={user} />
             </div>
-        );
-    }
+            <h1 className="profile-heading">Chatter Rooms</h1>
+            <div className="profile-chatter-room-list">
+                {user.chatterRooms.map((room) => (
+                    <Link key={room._id} className="profile-chatter-room-link" to={"/talk/rooms/" + room._id}>
+                        <div className="profile-chatter-room-link-name">{room.name}</div>{" "}
+                        {room.admin == user._id && <div className="profile-chatter-room-link-admin">Admin</div>}
+                    </Link>
+                ))}
+            </div>
+        </div>
+    );
 }
 
 export default Profile;
