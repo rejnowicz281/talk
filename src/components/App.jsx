@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import isTokenExpired from "../../helpers/isTokenExpired";
 import { useAuthStore } from "../store";
 import Login from "./Auth/Login";
@@ -36,7 +36,7 @@ function App() {
 
     if (tokenChecked) {
         return (
-            <BrowserRouter>
+            <HashRouter>
                 <Routes>
                     {currentUser ? (
                         <Route element={<MainLayout />}>
@@ -53,7 +53,7 @@ function App() {
                         </Route>
                     )}
                 </Routes>
-            </BrowserRouter>
+            </HashRouter>
         );
     }
 }
