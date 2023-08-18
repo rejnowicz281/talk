@@ -15,6 +15,8 @@ function Room() {
     const navigate = useNavigate();
     const [room, setRoom] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [leavingRoom, setLeavingRoom] = useState(false);
+    const [joiningRoom, setJoiningRoom] = useState(false);
 
     useEffect(() => {
         socket.emit("joinRoom", id);
@@ -60,6 +62,8 @@ function Room() {
         return () => {
             setIsAdmin(false);
             setRoom(null);
+            setLeavingRoom(false);
+            setJoiningRoom(false);
         };
     }, [id]);
 
@@ -93,31 +97,35 @@ function Room() {
     }
 
     function addChatter(user) {
-        setRoom((room) => ({
-            ...room,
-            chatters: [...room.chatters, user],
-        }));
+        setRoom((room) => ({ ...room, chatters: [...room.chatters, user] }));
     }
 
     async function leaveRoom(userId) {
+        setLeavingRoom(true);
         const res = await fetchLeaveRoom(id, userId);
 
         if (res.status === 200) {
             socket.emit("removeChatter", id, userId);
-            setIsAdmin(false);
+            setLeavingRoom(false);
         }
     }
 
     async function joinRoom() {
+        setJoiningRoom(true);
         const res = await fetchJoinRoom(id);
 
-        if (res.status === 200) socket.emit("addChatter", id, currentUser);
+        if (res.status === 200) {
+            socket.emit("addChatter", id, currentUser);
+            setJoiningRoom(false);
+        }
     }
 
     async function deleteMessage(messageId) {
         const res = await fetchDeleteMessage(id, messageId);
 
-        if (res.status === 200) socket.emit("removeMessage", id, messageId);
+        if (res.status === 200) {
+            socket.emit("removeMessage", id, messageId);
+        }
     }
 
     if (!room) return <div className="loading">Loading...</div>;
@@ -159,14 +167,19 @@ function Room() {
                 {!isAdmin &&
                     (room.chatters.some((chatter) => chatter._id === currentUser._id) ? (
                         <button
+                            disabled={leavingRoom}
                             className="room-sidebar-button leave-room-button"
                             onClick={() => leaveRoom(currentUser._id)}
                         >
-                            Leave Room
+                            {leavingRoom ? "Leaving..." : "Leave Room"}
                         </button>
                     ) : (
-                        <button className="room-sidebar-button join-room-button" onClick={() => joinRoom()}>
-                            Join Room
+                        <button
+                            disabled={joiningRoom}
+                            className="room-sidebar-button join-room-button"
+                            onClick={() => joinRoom()}
+                        >
+                            {joiningRoom ? "Joining..." : "Join Room"}
                         </button>
                     ))}
                 <div className="room-sidebar-chatters">
