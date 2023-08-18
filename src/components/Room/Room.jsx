@@ -61,6 +61,13 @@ function Room() {
         };
     }, [id]);
 
+    useEffect(() => {
+        if (room) {
+            const messagesDiv = document.querySelector(".room-messages");
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    }, [room.messages]);
+
     function setRoomName(name) {
         setRoom((room) => ({ ...room, name }));
     }
