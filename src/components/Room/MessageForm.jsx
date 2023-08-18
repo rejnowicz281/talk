@@ -10,8 +10,10 @@ function MessageForm() {
     const [text, setText] = useState("");
     const [photo, setPhoto] = useState("");
     const [errors, setErrors] = useState([]);
+    const [sending, setSending] = useState(false);
 
     async function handleSubmit(e) {
+        setSending(true);
         e.preventDefault();
 
         const res = await fetchCreateMessage(id, text, photo);
@@ -23,6 +25,7 @@ function MessageForm() {
         } else {
             setErrors(res.data.errors);
         }
+        setSending(false);
     }
 
     return (
@@ -35,8 +38,8 @@ function MessageForm() {
                 onChange={(e) => setText(e.target.value)}
             />
             {errors.length > 0 && <FormErrors errors={errors} />}
-            <button className="send-message-button" type="submit">
-                Send
+            <button disabled={sending} className={`send-message-button`} type="submit">
+                {sending ? "Sending..." : "Send"}
             </button>
             <label htmlFor="photo">Attach a photo (optional)</label>
             <ImagePicker id="photo" setImage={setPhoto} />
