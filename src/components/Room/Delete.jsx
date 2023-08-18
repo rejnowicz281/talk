@@ -10,7 +10,11 @@ function Delete() {
 
         if (res.status === 200) socket.emit("removeRoom", id);
     }
-    return <button onClick={handleDeleteRoom}>Delete Room</button>;
+    return (
+        <button className="room-delete-button room-sidebar-button" onClick={handleDeleteRoom}>
+            Delete Room
+        </button>
+    );
 }
 
 export default Delete;

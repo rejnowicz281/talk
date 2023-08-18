@@ -25,18 +25,19 @@ function Update() {
     }
 
     return (
-        <>
+        <form onSubmit={handleUpdateRoom}>
+            <input
+                className="room-sidebar-input"
+                type="text"
+                value={newName}
+                placeholder="New Room Name"
+                onChange={(e) => setNewName(e.target.value)}
+            />
             {errors.length > 0 && <FormErrors errors={errors} />}
-            <form onSubmit={handleUpdateRoom}>
-                <input
-                    type="text"
-                    value={newName}
-                    placeholder="New Room Name"
-                    onChange={(e) => setNewName(e.target.value)}
-                />
-                <button type="submit">Update Room</button>
-            </form>
-        </>
+            <button className="room-update-button room-sidebar-button" type="submit">
+                Update Room
+            </button>
+        </form>
     );
 }
 

@@ -12,7 +12,8 @@
 }
 
 .profile-container,
-.room-container,
+.room-sidebar,
+.room-message-section,
 .main-sidebar {
     padding: 100px 50px;
     box-sizing: border-box;

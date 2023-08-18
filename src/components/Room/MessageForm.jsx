@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { fetchCreateMessage } from "../../../helpers/API";
 import socket from "../../socket";
 import FormErrors from "../shared/FormErrors";
+import ImagePicker from "../shared/PhotoPicker";
 
 function MessageForm() {
     const { id } = useParams(); // room id
@@ -24,31 +25,22 @@ function MessageForm() {
         }
     }
 
-    function cancelPhoto() {
-        setPhoto(null);
-        document.getElementById("photo").value = "";
-    }
-
     return (
-        <>
+        <form onSubmit={handleSubmit}>
+            <input
+                className="room-message-input"
+                type="text"
+                placeholder="Type your message here..."
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+            />
             {errors.length > 0 && <FormErrors errors={errors} />}
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="photo">Attach a photo (optional)</label>
-                <input type="file" id="photo" onChange={(e) => setPhoto(e.target.files[0])} />
-                {photo && (
-                    <button type="button" onClick={cancelPhoto}>
-                        Cancel Photo
-                    </button>
-                )}
-                <input
-                    type="text"
-                    placeholder="Type your message here..."
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                />
-                <button type="submit">Send</button>
-            </form>
-        </>
+            <button className="send-message-button" type="submit">
+                Send
+            </button>
+            <label htmlFor="photo">Attach a photo (optional)</label>
+            <ImagePicker id="photo" setImage={setPhoto} />
+        </form>
     );
 }
 

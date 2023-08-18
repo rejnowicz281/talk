@@ -110,44 +110,66 @@ function Room() {
 
     if (room) {
         return (
-            <div>
-                <h1>{room.name}</h1>
-                {isAdmin && <Delete />}
-                {isAdmin && <Update setRoomName={setRoomName} />}
-                {!isAdmin &&
-                    (room.chatters.some((chatter) => chatter._id === currentUser._id) ? (
-                        <button onClick={() => leaveRoom(currentUser._id)}>Leave Room</button>
-                    ) : (
-                        <button onClick={() => joinRoom()}>Join Room</button>
-                    ))}
-                <h3>Chatters</h3>
-                <ul>
-                    {room.chatters.map((chatter) => (
-                        <li key={chatter._id}>
-                            <UserBox user={chatter} adminTag={chatter._id === room.admin} />
-                            {isAdmin && chatter._id !== room.admin && (
-                                <button onClick={() => leaveRoom(chatter._id)}>Kick</button>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-                <hr />
-                {room.chatters.some((chatter) => chatter._id === currentUser._id) && (
-                    <MessageForm addMessage={addMessage} />
-                )}
-                <ul>
-                    {room.messages.map((message) => (
-                        <li key={message._id}>
-                            <UserBox user={message.user} />:
-                            <div>
-                                {message.text} {message.photo && <img src={message.photo.url} />}
+            <div className="room-container">
+                <div className="room-message-section">
+                    <div className="room-messages">
+                        {room.messages.map((message) => (
+                            <div className="room-message" key={message._id}>
+                                <UserBox user={message.user} />
+                                {(isAdmin || message.user._id === currentUser._id) && (
+                                    <button
+                                        className="text-rosy message-delete-button"
+                                        onClick={() => deleteMessage(message._id)}
+                                    >
+                                        Delete Message
+                                    </button>
+                                )}
+                                <div className="room-message-content">
+                                    <div className="room-message-text">{message.text} </div>
+                                    {message.photo && <img src={message.photo.url} />}
+                                </div>
                             </div>
-                            {(isAdmin || message.user._id === currentUser._id) && (
-                                <button onClick={() => deleteMessage(message._id)}>Delete</button>
-                            )}
-                        </li>
-                    ))}
-                </ul>
+                        ))}
+                    </div>
+                    {room.chatters.some((chatter) => chatter._id === currentUser._id) && (
+                        <MessageForm addMessage={addMessage} />
+                    )}
+                </div>
+                <div className="room-sidebar">
+                    <h1>{room.name}</h1>
+                    {isAdmin && (
+                        <>
+                            <Delete />
+                            <Update setRoomName={setRoomName} />
+                        </>
+                    )}
+                    {!isAdmin &&
+                        (room.chatters.some((chatter) => chatter._id === currentUser._id) ? (
+                            <button
+                                className="room-sidebar-button leave-room-button"
+                                onClick={() => leaveRoom(currentUser._id)}
+                            >
+                                Leave Room
+                            </button>
+                        ) : (
+                            <button className="room-sidebar-button join-room-button" onClick={() => joinRoom()}>
+                                Join Room
+                            </button>
+                        ))}
+                    <div className="room-sidebar-chatters">
+                        <h3>Chatters</h3>
+                        {room.chatters.map((chatter) => (
+                            <div className="room-chatter-box" key={chatter._id}>
+                                <UserBox user={chatter} adminTag={chatter._id === room.admin} />
+                                {isAdmin && chatter._id !== room.admin && (
+                                    <button className="kick-chatter-button" onClick={() => leaveRoom(chatter._id)}>
+                                        Kick
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     }
