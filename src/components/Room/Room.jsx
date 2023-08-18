@@ -66,7 +66,7 @@ function Room() {
             const messagesDiv = document.querySelector(".room-messages");
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
-    }, [room.messages]);
+    }, [room]);
 
     function setRoomName(name) {
         setRoom((room) => ({ ...room, name }));
