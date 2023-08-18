@@ -13,7 +13,7 @@ function ImagePicker({ setImage, id }) {
     function handleCancelImage() {
         setImage(null);
         setImageIsSet(false);
-        document.getElementById("avatar").value = "";
+        document.getElementById(id).value = "";
     }
 
     return (
