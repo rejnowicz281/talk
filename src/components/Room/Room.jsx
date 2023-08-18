@@ -46,7 +46,7 @@ function Room() {
             const res = await fetchRoom(id);
 
             if (res.status === 200) {
-                if (currentUser._id == res.data.room.admin._id) setIsAdmin(true);
+                if (currentUser._id == res.data.room.admin) setIsAdmin(true);
 
                 setRoom(res.data.room);
             } else {
@@ -112,9 +112,6 @@ function Room() {
         return (
             <div>
                 <h1>{room.name}</h1>
-                <h2>
-                    <UserBox user={room.admin} adminTag={true} />
-                </h2>
                 {isAdmin && <Delete />}
                 {isAdmin && <Update setRoomName={setRoomName} />}
                 {!isAdmin &&
@@ -127,8 +124,8 @@ function Room() {
                 <ul>
                     {room.chatters.map((chatter) => (
                         <li key={chatter._id}>
-                            <UserBox user={chatter} adminTag={chatter._id === room.admin._id} />
-                            {isAdmin && chatter._id !== room.admin._id && (
+                            <UserBox user={chatter} adminTag={chatter._id === room.admin} />
+                            {isAdmin && chatter._id !== room.admin && (
                                 <button onClick={() => leaveRoom(chatter._id)}>Kick</button>
                             )}
                         </li>
