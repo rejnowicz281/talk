@@ -35,6 +35,16 @@ export async function apiLogin(email, password) {
     }
 }
 
+export async function apiDemoLogin() {
+    try {
+        const response = await api.post("demo");
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
+
 export async function apiRegister(email, username, password, password_confirm, avatar) {
     try {
         const formData = new FormData();

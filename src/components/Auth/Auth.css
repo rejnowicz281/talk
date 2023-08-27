@@ -24,9 +24,8 @@
 /* Login */
 
 .login-button,
-.register-button {
-    background-color: rgb(202, 82, 45);
-    color: white;
+.register-button,
+.demo-login-button {
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
@@ -36,9 +35,23 @@
     width: 100%;
 }
 
+.login-button,
+.register-button {
+    background-color: rgb(202, 82, 45);
+    color: white;
+}
+
 .login-button:hover,
 .register-button:hover {
     background-color: rgb(153, 90, 70);
 }
 
-/* Register */
+.demo-login-button {
+    margin-top: 10px;
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+
+.demo-login-button:hover {
+    background-color: rgb(50, 50, 50);
+}

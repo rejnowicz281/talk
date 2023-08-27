@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { apiLogin } from "../../../helpers/API";
+import { apiDemoLogin, apiLogin } from "../../../helpers/API";
 import { useAuthStore } from "../../store";
 import "./Auth.css";
 
@@ -15,13 +15,23 @@ function Login() {
         e.preventDefault();
         const res = await apiLogin(email, password);
 
+        handleLoginResponse(res);
+    };
+
+    async function handleDemoLogin() {
+        const res = await apiDemoLogin();
+
+        handleLoginResponse(res);
+    }
+
+    function handleLoginResponse(res) {
         if (res.status == 200) {
             localStorage.setItem("token", res.data.token);
             loginWithToken(res.data.token);
         } else {
             setError(res.data.message);
         }
-    };
+    }
 
     return (
         <div className="auth-box">
@@ -49,6 +59,9 @@ function Login() {
                 </div>
                 <button className="login-button" type="submit">
                     Log In
+                </button>
+                <button onClick={handleDemoLogin} className="demo-login-button" type="button">
+                    Demo Login
                 </button>
             </form>
             <div className="auth-link-box">
