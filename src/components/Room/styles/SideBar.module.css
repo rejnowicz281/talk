@@ -49,10 +49,6 @@
     background-color: rgb(204, 140, 111);
 }
 
-.kick {
-    margin-left: 20px;
-}
-
 .chatters {
     margin-top: 20px;
     flex: 1;
@@ -60,6 +56,9 @@
 }
 
 .chatter-container {
-    display: flex;
     margin: 30px 0;
+}
+
+.chatter-container:first-of-type {
+    margin-top: 10px;
 }
