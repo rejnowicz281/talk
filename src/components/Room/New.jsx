@@ -2,7 +2,7 @@ import { useState } from "react";
 import { fetchCreateRoom } from "../../../helpers/API";
 import socket from "../../socket";
 import FormErrors from "../shared/FormErrors";
-import "./Room.css";
+import css from "./styles/New.module.css";
 
 function New() {
     const [name, setName] = useState("");
@@ -21,18 +21,19 @@ function New() {
             setErrors(res.data.errors);
         }
     }
+
     return (
-        <div className="new-room-container">
+        <div className={css.container}>
             {errors.length > 0 && <FormErrors errors={errors} />}
-            <form className="new-room-form" onSubmit={handleCreateRoom}>
+            <form className={css.form} onSubmit={handleCreateRoom}>
                 <input
-                    className="new-room-input"
+                    className={css.input}
                     type="text"
                     value={name}
                     placeholder="New Room Name"
                     onChange={(e) => setName(e.target.value)}
                 />
-                <button className="new-room-submit" type="submit">
+                <button className={css.submit} type="submit">
                     Create Room
                 </button>
             </form>

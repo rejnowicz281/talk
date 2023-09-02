@@ -1,0 +1,28 @@
+.link {
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 20px 0;
+    color: rgb(196, 196, 196);
+    font-weight: bold;
+}
+
+.link:hover,
+.link.active {
+    background-color: rgb(10, 60, 70);
+}
+
+.link:first-child {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.link:not(:last-child) {
+    border-bottom: 1px solid #353535;
+}
+
+.link:last-child {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}

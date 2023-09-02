@@ -1,0 +1,28 @@
+.input {
+    padding: 10px;
+    border: none;
+    margin-top: 20px;
+    background-color: inherit;
+    color: white;
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: rgb(53, 54, 54);
+    transition: 0.1s;
+    margin-bottom: 5px;
+}
+
+.input:focus {
+    box-shadow: 0 0 1px grey;
+    outline: none;
+}
+
+.submit {
+    border: none;
+    background-color: rgb(90, 150, 135);
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+}

@@ -1,0 +1,44 @@
+.container {
+    padding: 100px 50px;
+    box-sizing: border-box;
+    width: 500px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.current-user-wrapper {
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    margin-top: 15px;
+    border-bottom: 1px solid #a1a1a1;
+}
+
+.buttons > button {
+    flex: 1;
+    background-color: inherit;
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 20px 10px;
+    cursor: pointer;
+}
+
+.buttons > button:hover {
+    background-color: rgb(17, 70, 70);
+}
+
+.buttons > button:first-child {
+    border-top-left-radius: 20px;
+}
+
+.buttons > button:last-child {
+    border-top-right-radius: 20px;
+}
+
+#active-button {
+    background-color: #30302f;
+}

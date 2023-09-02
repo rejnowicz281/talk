@@ -1,0 +1,14 @@
+.double-form-field {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+}
+
+.errors {
+    margin-bottom: 30px;
+}
+
+.error {
+    margin-bottom: 10px;
+    color: rgb(255, 115, 115);
+}

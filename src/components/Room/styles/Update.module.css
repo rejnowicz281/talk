@@ -1,0 +1,14 @@
+.input {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.submit {
+    border: none;
+    width: 100%;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: white;
+    background-color: rgb(90, 150, 135);
+}

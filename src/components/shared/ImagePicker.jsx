@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import "./PhotoPicker.css";
+import { FaXmark } from "react-icons/fa6";
+import styles from "./styles/ImagePicker.module.css";
 
 function ImagePicker({ setImage, id }) {
     const [imageIsSet, setImageIsSet] = useState(false);
@@ -17,19 +18,19 @@ function ImagePicker({ setImage, id }) {
     }
 
     return (
-        <div className="photo-picker-box">
+        <div className={styles.container}>
+            <input className={styles.input} type="file" id={id} onChange={handleImageChange} />
             {imageIsSet && (
-                <button className="cancel-image-button" type="button" onClick={handleCancelImage}>
-                    ☓
+                <button className={styles.cancel} type="button" onClick={handleCancelImage}>
+                    <FaXmark />
                 </button>
             )}
-            <input className="photo-picker" type="file" id={id} onChange={handleImageChange} />
         </div>
     );
 }
 
 ImagePicker.propTypes = {
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     setImage: PropTypes.func.isRequired,
 };
 

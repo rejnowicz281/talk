@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { fetchUpdateRoom } from "../../../helpers/API";
 import socket from "../../socket";
 import FormErrors from "../shared/FormErrors";
+import css from "./styles/Update.module.css";
 
 function Update() {
     const { id } = useParams();
@@ -27,14 +28,14 @@ function Update() {
     return (
         <form onSubmit={handleUpdateRoom}>
             <input
-                className="room-sidebar-input"
+                className={css.input}
                 type="text"
                 value={newName}
                 placeholder="New Room Name"
                 onChange={(e) => setNewName(e.target.value)}
             />
             {errors.length > 0 && <FormErrors errors={errors} />}
-            <button className="room-update-button room-sidebar-button" type="submit">
+            <button className={css.submit} type="submit">
                 Update Room
             </button>
         </form>

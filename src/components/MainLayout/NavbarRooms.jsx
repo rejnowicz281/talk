@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { fetchRooms } from "../../../helpers/API";
 import socket from "../../socket";
+import Loading from "../shared/Loading";
+import cssNavbar from "./styles/Navbar.module.css";
+import cssNavbarRooms from "./styles/NavbarRooms.module.css";
 
 function NavbarRooms() {
     const [rooms, setRooms] = useState(null);
@@ -44,20 +47,29 @@ function NavbarRooms() {
     }
 
     return (
-        <nav className="current-navbar">
-            <NavLink to="/talk/rooms/new" className="current-navbar-heading-button">
+        <nav className={cssNavbar.container}>
+            <NavLink
+                className={({ isActive }) => `${cssNavbar["main-button"]} ${isActive ? cssNavbar.active : ""}`}
+                to="/talk/rooms/new"
+            >
                 Create New Room
             </NavLink>
             {rooms ? (
-                <div className="current-navbar-list">
+                <div className={cssNavbar.list}>
                     {rooms.map((room) => (
-                        <NavLink className="navbar-room-link" key={room._id} to={"/talk/rooms/" + room._id}>
+                        <NavLink
+                            className={({ isActive }) =>
+                                `${cssNavbarRooms.link} ${isActive ? cssNavbarRooms.active : ""}`
+                            }
+                            key={room._id}
+                            to={"/talk/rooms/" + room._id}
+                        >
                             {room.name}
                         </NavLink>
                     ))}
                 </div>
             ) : (
-                <div className="loading">Loading...</div>
+                <Loading />
             )}
         </nav>
     );

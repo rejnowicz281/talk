@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchDeleteMessage, fetchJoinRoom, fetchLeaveRoom, fetchRoom } from "../../../helpers/API";
 import socket from "../../socket";
 import { useAuthStore } from "../../store";
 import UserBox from "../User/UserBox";
+import Loading from "../shared/Loading";
 import Delete from "./Delete";
 import MessageForm from "./MessageForm";
 import Update from "./Update";
+import css from "./styles/Room.module.css";
 
 function Room() {
     const currentUser = useAuthStore((state) => state.currentUser);
 
+    const messagesRef = useRef(null);
     const { id } = useParams();
     const navigate = useNavigate();
     const [room, setRoom] = useState(null);
@@ -68,8 +71,8 @@ function Room() {
     }, [id]);
 
     useEffect(() => {
-        if (room) {
-            const messagesDiv = document.querySelector(".room-messages");
+        if (room && messagesRef.current) {
+            const messagesDiv = messagesRef.current;
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
     }, [room]);
@@ -128,25 +131,22 @@ function Room() {
         }
     }
 
-    if (!room) return <div className="loading">Loading...</div>;
+    if (!room) return <Loading />;
 
     return (
-        <div className="room-container">
-            <div className="room-message-section">
-                <div className="room-messages">
+        <div className={css.container}>
+            <div className={css.main}>
+                <div className={css.messages} ref={messagesRef}>
                     {room.messages.map((message) => (
-                        <div className="room-message" key={message._id}>
+                        <div className={css.message} key={message._id}>
                             <UserBox user={message.user} />
                             {(isAdmin || message.user._id === currentUser._id) && (
-                                <button
-                                    className="text-rosy message-delete-button"
-                                    onClick={() => deleteMessage(message._id)}
-                                >
+                                <button className={css["message-delete"]} onClick={() => deleteMessage(message._id)}>
                                     Delete Message
                                 </button>
                             )}
-                            <div className="room-message-content">
-                                <div className="room-message-text">{message.text} </div>
+                            <div className={css["message-content"]}>
+                                <div>{message.text}</div>
                                 {message.photo && <img src={message.photo.url} />}
                             </div>
                         </div>
@@ -156,8 +156,8 @@ function Room() {
                     <MessageForm addMessage={addMessage} />
                 )}
             </div>
-            <div className="room-sidebar">
-                <h1>{room.name}</h1>
+            <div className={css.sidebar}>
+                <h1 className={css["sidebar-heading"]}>{room.name}</h1>
                 {isAdmin && (
                     <>
                         <Delete />
@@ -166,29 +166,21 @@ function Room() {
                 )}
                 {!isAdmin &&
                     (room.chatters.some((chatter) => chatter._id === currentUser._id) ? (
-                        <button
-                            disabled={leavingRoom}
-                            className="room-sidebar-button leave-room-button"
-                            onClick={() => leaveRoom(currentUser._id)}
-                        >
+                        <button disabled={leavingRoom} className={css.leave} onClick={() => leaveRoom(currentUser._id)}>
                             {leavingRoom ? "Leaving..." : "Leave Room"}
                         </button>
                     ) : (
-                        <button
-                            disabled={joiningRoom}
-                            className="room-sidebar-button join-room-button"
-                            onClick={() => joinRoom()}
-                        >
+                        <button disabled={joiningRoom} className={css.join} onClick={() => joinRoom()}>
                             {joiningRoom ? "Joining..." : "Join Room"}
                         </button>
                     ))}
-                <div className="room-sidebar-chatters">
+                <div className={css.chatters}>
                     <h3>Chatters</h3>
                     {room.chatters.map((chatter) => (
-                        <div className="room-chatter-box" key={chatter._id}>
+                        <div className={css["chatter-container"]} key={chatter._id}>
                             <UserBox user={chatter} adminTag={chatter._id === room.admin} />
                             {isAdmin && chatter._id !== room.admin && (
-                                <button className="kick-chatter-button" onClick={() => leaveRoom(chatter._id)}>
+                                <button className={css.kick} onClick={() => leaveRoom(chatter._id)}>
                                     Kick
                                 </button>
                             )}

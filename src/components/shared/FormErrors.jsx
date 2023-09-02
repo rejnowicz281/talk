@@ -4,9 +4,7 @@ function FormErrors({ errors }) {
     return (
         <>
             {errors.map((error) => (
-                <div className="text-rosy" key={error.msg}>
-                    {error.msg}
-                </div>
+                <div key={error.msg}>{error.msg}</div>
             ))}
         </>
     );

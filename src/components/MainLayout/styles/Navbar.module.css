@@ -1,0 +1,32 @@
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.main-button {
+    color: #a1a1a1;
+    background-color: rgb(10, 60, 70);
+    font-size: 20px;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 15px 0;
+    border-radius: 0 0 20px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.main-button:hover,
+.main-button.active {
+    color: #c0c0c0;
+    background-color: rgb(12, 74, 87);
+}
+
+.list {
+    flex: 1;
+    overflow-y: auto;
+}

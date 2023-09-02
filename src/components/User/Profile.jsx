@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchUserData } from "../../../helpers/API";
 import socket from "../../socket";
+import Loading from "../shared/Loading";
 import UserBox from "./UserBox";
+import css from "./styles/Profile.module.css";
 
 function Profile() {
     const navigate = useNavigate();
@@ -67,19 +69,19 @@ function Profile() {
         }));
     }
 
-    if (!user) return <div className="loading">Loading...</div>;
+    if (!user) return <Loading />;
 
     return (
-        <div className="profile-container">
-            <div className="text-center">
+        <div className={css.container}>
+            <div className={css["user-wrapper"]}>
                 <UserBox user={user} />
             </div>
-            <h1 className="profile-heading">Chatter Rooms</h1>
-            <div className="profile-chatter-room-list">
+            <h1 className={css.heading}>Chatter Rooms</h1>
+            <div className={css["room-list"]}>
                 {user.chatterRooms.map((room) => (
-                    <Link key={room._id} className="profile-chatter-room-link" to={"/talk/rooms/" + room._id}>
-                        <div className="profile-chatter-room-link-name">{room.name}</div>{" "}
-                        {room.admin == user._id && <div className="profile-chatter-room-link-admin">Admin</div>}
+                    <Link key={room._id} className={css["room-link"]} to={"/talk/rooms/" + room._id}>
+                        <div className={css["room-link-name"]}>{room.name}</div>{" "}
+                        {room.admin == user._id && <div className={css["room-link-admin"]}>Admin</div>}
                     </Link>
                 ))}
             </div>
