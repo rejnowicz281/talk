@@ -1,7 +1,6 @@
 import { io } from "socket.io-client";
+import { API_URL } from "../helpers/config";
 
-const URL = "https://talk.fly.dev";
-
-const socket = io(URL);
+const socket = io(API_URL);
 
 export default socket;

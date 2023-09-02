@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_URL = "https://talk.fly.dev/";
+import { API_URL } from "./config";
 
 const apiAuth = axios.create({
     baseURL: API_URL,
