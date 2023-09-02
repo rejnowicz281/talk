@@ -3,6 +3,10 @@
     display: flex;
 }
 
+.loading-container {
+    height: 100vh;
+}
+
 .main {
     flex: 3;
 }
