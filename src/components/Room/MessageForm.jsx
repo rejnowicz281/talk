@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchCreateMessage } from "../../../helpers/API";
 import socket from "../../socket";
-import FormErrors from "../shared/FormErrors";
 import ImagePicker from "../shared/ImagePicker";
 import css from "./styles/MessageForm.module.css";
 
@@ -38,7 +37,15 @@ function MessageForm() {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
             />
-            {errors.length > 0 && <FormErrors errors={errors} />}
+            {errors.length > 0 && (
+                <div className={css.errors}>
+                    {errors.map((error) => (
+                        <div className={css.error} key={error.msg}>
+                            {error.msg}
+                        </div>
+                    ))}
+                </div>
+            )}
             <button className={css.submit} disabled={sending} type="submit">
                 {sending ? "Sending..." : "Send"}
             </button>

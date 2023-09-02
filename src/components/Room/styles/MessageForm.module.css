@@ -1,3 +1,7 @@
+.error {
+    color: rgb(249, 124, 124);
+}
+
 .input {
     padding: 10px;
     border: none;

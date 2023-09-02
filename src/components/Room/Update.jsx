@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchUpdateRoom } from "../../../helpers/API";
 import socket from "../../socket";
-import FormErrors from "../shared/FormErrors";
 import css from "./styles/Update.module.css";
 
 function Update() {
@@ -34,7 +33,15 @@ function Update() {
                 placeholder="New Room Name"
                 onChange={(e) => setNewName(e.target.value)}
             />
-            {errors.length > 0 && <FormErrors errors={errors} />}
+            {errors.length > 0 && (
+                <div className={css.errors}>
+                    {errors.map((error) => (
+                        <div className={css.error} key={error.msg}>
+                            {error.msg}
+                        </div>
+                    ))}
+                </div>
+            )}
             <button className={css.submit} type="submit">
                 Update Room
             </button>

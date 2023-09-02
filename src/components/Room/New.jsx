@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { fetchCreateRoom } from "../../../helpers/API";
 import socket from "../../socket";
-import FormErrors from "../shared/FormErrors";
 import css from "./styles/New.module.css";
 
 function New() {
@@ -24,7 +23,15 @@ function New() {
 
     return (
         <div className={css.container}>
-            {errors.length > 0 && <FormErrors errors={errors} />}
+            {errors.length > 0 && (
+                <div className={css.errors}>
+                    {errors.map((error) => (
+                        <li className={css.error} key={error.msg}>
+                            {error.msg}
+                        </li>
+                    ))}
+                </div>
+            )}
             <form className={css.form} onSubmit={handleCreateRoom}>
                 <input
                     className={css.input}
