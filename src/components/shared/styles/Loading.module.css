@@ -1,9 +1,12 @@
-.loading {
+.wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 50px;
     height: 100%;
+}
+
+.loading {
+    font-size: 50px;
     animation-name: wiggle;
     animation-duration: 1s;
     animation-iteration-count: infinite;
