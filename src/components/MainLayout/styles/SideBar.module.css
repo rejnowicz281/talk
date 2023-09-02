@@ -1,10 +1,25 @@
 .container {
     padding: 100px 50px 50px 50px;
     box-sizing: border-box;
-    width: 500px;
     height: 100vh;
     display: flex;
     flex-direction: column;
+    transition: 0.3s;
+    max-width: 500px;
+    width: 100%;
+}
+
+.toggle {
+    display: none;
+    background-color: inherit;
+    border: none;
+    color: whitesmoke;
+    font-size: 40px;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    cursor: pointer;
+    z-index: 4;
 }
 
 .current-user-wrapper {
@@ -41,4 +56,20 @@
 
 #active-button {
     background-color: #30302f;
+}
+
+@media (max-width: 1500px) {
+    .container {
+        background-color: #1a1a1a;
+        border-right: 1px solid #2c2c2c;
+        left: -500px;
+        position: fixed;
+        z-index: 3;
+    }
+    .toggle {
+        display: block;
+    }
+    .open {
+        left: 0;
+    }
 }
