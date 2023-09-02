@@ -17,6 +17,7 @@
     flex: 1;
     overflow-y: auto;
     padding-bottom: 30px;
+    word-break: break-all;
 }
 
 .message {
