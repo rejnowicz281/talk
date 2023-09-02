@@ -3,4 +3,15 @@
     padding: 10px 20px;
     color: white;
     background-color: rgb(179, 115, 86);
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.button:hover {
+    background-color: rgb(196, 63, 63);
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }

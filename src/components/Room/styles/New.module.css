@@ -32,4 +32,6 @@
     border-radius: 5px;
     border: none;
     margin-top: 30px;
+    cursor: pointer;
+    transition: 0.1s;
 }

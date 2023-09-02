@@ -9,11 +9,14 @@ function Update() {
     const { id } = useParams();
     const [newName, setNewName] = useState("");
     const [errors, setErrors] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     async function handleUpdateRoom(e) {
         e.preventDefault();
 
+        setLoading(true);
         const res = await fetchUpdateRoom(id, newName);
+        setLoading(false);
 
         if (res.status === 200) {
             socket.emit("updateRoom", id, newName);
@@ -42,8 +45,8 @@ function Update() {
                     ))}
                 </div>
             )}
-            <button className={css.submit} type="submit">
-                Update Room
+            <button className={css.submit} type="submit" disabled={loading}>
+                {loading ? "Updating..." : "Update Room"}
             </button>
         </form>
     );

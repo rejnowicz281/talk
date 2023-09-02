@@ -6,11 +6,14 @@ import css from "./styles/New.module.css";
 function New() {
     const [name, setName] = useState("");
     const [errors, setErrors] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     async function handleCreateRoom(e) {
         e.preventDefault();
 
+        setLoading(true);
         const res = await fetchCreateRoom(name);
+        setLoading(false);
 
         if (res.status === 200) {
             socket.emit("createRoom", res.data.room);
@@ -40,8 +43,8 @@ function New() {
                     placeholder="New Room Name"
                     onChange={(e) => setName(e.target.value)}
                 />
-                <button className={css.submit} type="submit">
-                    Create Room
+                <button className={css.submit} type="submit" disabled={loading}>
+                    {loading ? "Creating..." : "Create Room"}
                 </button>
             </form>
         </div>

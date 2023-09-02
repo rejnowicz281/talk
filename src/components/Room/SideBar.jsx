@@ -97,9 +97,12 @@ function SideBar({ room, setRoom, isAdmin }) {
                     <div className={css["chatter-container"]} key={chatter._id}>
                         <UserBox user={chatter} adminTag={chatter._id === room.admin} />
                         {isAdmin && chatter._id !== room.admin && (
-                            <button className={css.kick} onClick={() => leaveRoom(chatter._id)}>
-                                Kick
-                            </button>
+                            <AsyncButton
+                                className={css.kick}
+                                mainAction={() => leaveRoom(chatter._id)}
+                                content="Kick"
+                                loadingContent="Kicking..."
+                            />
                         )}
                     </div>
                 ))}

@@ -1,5 +1,5 @@
 .container {
-    padding: 100px 50px;
+    padding: 100px 50px 50px 50px;
     box-sizing: border-box;
     width: 350px;
     display: flex;
@@ -19,12 +19,34 @@
     width: 100%;
     padding: 10px 20px;
     cursor: pointer;
+    transition: 0.1s;
+}
+
+.leave:disabled,
+.kick:disabled,
+.join:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.join {
+    color: white;
+    background-color: rgb(90, 150, 135);
+}
+
+.join:hover {
+    background-color: rgb(114, 174, 160);
+}
+
+.leave,
+.kick {
     color: white;
     background-color: rgb(179, 115, 86);
 }
 
-.join {
-    background-color: rgb(90, 150, 135);
+.leave:hover,
+.kick:hover {
+    background-color: rgb(204, 140, 111);
 }
 
 .kick {

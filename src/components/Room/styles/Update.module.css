@@ -6,6 +6,23 @@
     width: 100%;
     box-sizing: border-box;
     text-align: center;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: rgb(24, 24, 28);
+    transition: 0.1s;
+    color: whitesmoke;
+    border: none;
+    box-shadow: 0 0 1px grey;
+    font-weight: 500;
+}
+
+.input:focus {
+    box-shadow: 0 0 3px grey;
+    outline: none;
+}
+
+.input:hover {
+    box-shadow: 0 0 3px grey;
 }
 
 .submit {
@@ -15,4 +32,14 @@
     cursor: pointer;
     color: white;
     background-color: rgb(90, 150, 135);
+    transition: 0.1s;
+}
+
+.submit:hover {
+    background-color: rgb(114, 174, 160);
+}
+
+.submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }

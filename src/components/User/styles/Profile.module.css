@@ -1,5 +1,5 @@
 .container {
-    padding: 100px 50px;
+    padding: 100px 50px 50px 50px;
     box-sizing: border-box;
     height: 100vh;
     display: flex;

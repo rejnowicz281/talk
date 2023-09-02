@@ -4,6 +4,7 @@ import { fetchDeleteMessage, fetchRoom } from "../../../helpers/API";
 import socket from "../../socket";
 import { useAuthStore } from "../../store";
 import UserBox from "../User/UserBox";
+import AsyncButton from "../shared/AsyncButton";
 import Loading from "../shared/Loading";
 import MessageForm from "./MessageForm";
 import SideBar from "./SideBar";
@@ -88,9 +89,12 @@ function Room() {
                         <div className={css.message} key={message._id}>
                             <UserBox user={message.user} />
                             {(isAdmin || message.user._id === currentUser._id) && (
-                                <button className={css["message-delete"]} onClick={() => deleteMessage(message._id)}>
-                                    Delete Message
-                                </button>
+                                <AsyncButton
+                                    className={css["message-delete"]}
+                                    mainAction={() => deleteMessage(message._id)}
+                                    content="Delete Message"
+                                    loadingContent="Deleting..."
+                                />
                             )}
                             <div className={css["message-content"]}>
                                 <div>{message.text}</div>
