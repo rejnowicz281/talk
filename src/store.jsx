@@ -15,3 +15,8 @@ export const useAuthStore = create((set, get) => ({
         set({ currentUser: user });
     },
 }));
+
+export const useMainSidebarStore = create((set) => ({
+    mainSidebarOpen: false,
+    toggleMainSidebar: () => set((state) => ({ mainSidebarOpen: !state.mainSidebarOpen })),
+}));

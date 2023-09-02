@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
 import socket from "../../socket";
-import { useAuthStore } from "../../store";
+import { useAuthStore, useMainSidebarStore } from "../../store";
 import UserBox from "../User/UserBox";
 import NavbarLogout from "./NavbarLogout";
 import NavbarRooms from "./NavbarRooms";
@@ -9,10 +9,12 @@ import NavbarUsers from "./NavbarUsers";
 import css from "./styles/SideBar.module.css";
 
 function SideBar() {
+    const sidebarOpen = useMainSidebarStore((state) => state.mainSidebarOpen);
+    const toggleSidebar = useMainSidebarStore((state) => state.toggleMainSidebar);
+
     const currentUser = useAuthStore((state) => state.currentUser);
     const [loggedUsers, setLoggedUsers] = useState([]);
     const [currentNavbar, setCurrentNavbar] = useState("rooms");
-    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     useEffect(() => {
         socket.on("updateLoggedUsers", (users) => {
@@ -23,10 +25,6 @@ function SideBar() {
             socket.off("updateLoggedUsers");
         };
     }, []);
-
-    function toggleSidebar() {
-        setSidebarOpen((prev) => !prev);
-    }
 
     return (
         <>
