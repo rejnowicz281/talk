@@ -7,10 +7,11 @@ import cssAuth from "./styles/Auth.module.css";
 import cssLogin from "./styles/Login.module.css";
 
 function Login() {
-    const loginWithToken = useAuthStore((state) => state.loginWithToken);
+    const login = useAuthStore((state) => state.login);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [persist, setPersist] = useState(true);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -31,8 +32,8 @@ function Login() {
 
     function handleLoginResponse(res) {
         if (res.status == 200) {
-            localStorage.setItem("token", res.data.token);
-            loginWithToken(res.data.token);
+            localStorage.setItem("persist", persist);
+            login(res.data.access_token);
         } else {
             setError(res.data.message);
         }
@@ -63,6 +64,15 @@ function Login() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
+                    </div>
+                    <div className={cssLogin["remember-me-field"]}>
+                        <input
+                            onChange={(e) => setPersist(e.target.checked)}
+                            checked={persist}
+                            type="checkbox"
+                            id="remember-me"
+                        />
+                        <label htmlFor="remember-me">Remember me</label>
                     </div>
                     <button className={cssAuth.continue} type="submit" disabled={loading}>
                         {loading ? "Logging in..." : "Continue"}

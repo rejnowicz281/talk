@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
-import isTokenExpired from "../../helpers/isTokenExpired";
+import { apiAuth } from "../../API";
+import { apiRefreshToken } from "../../API/auth";
 import { useAuthStore } from "../store";
 import Login from "./Auth/Login";
+import PersistLogin from "./Auth/PersistLogin";
 import Register from "./Auth/Register";
 import MainLayout from "./MainLayout/MainLayout";
 import NewRoom from "./Room/New";
@@ -11,50 +13,70 @@ import Profile from "./User/Profile";
 
 function App() {
     const currentUser = useAuthStore((state) => state.currentUser);
+    const token = useAuthStore((state) => state.token);
+    const login = useAuthStore((state) => state.login);
     const logout = useAuthStore((state) => state.logout);
-    const loginWithToken = useAuthStore((state) => state.loginWithToken);
-    const [tokenChecked, setTokenChecked] = useState(false);
 
+    // Set up axios interceptors
     useEffect(() => {
-        async function checkToken() {
-            setTokenChecked(false);
-            const token = localStorage.getItem("token");
+        const requestInterceptor = apiAuth.interceptors.request.use(
+            (config) => {
+                if (token) config.headers["Authorization"] = "Bearer " + token;
 
-            if (token) {
-                const isExpired = isTokenExpired(token);
-
-                if (isExpired) logout();
-                else await loginWithToken(token);
+                return config;
+            },
+            (error) => {
+                Promise.reject(error);
             }
-
-            setTokenChecked(true);
-        }
-
-        checkToken();
-    }, []);
-
-    if (tokenChecked) {
-        return (
-            <HashRouter>
-                <Routes>
-                    {currentUser ? (
-                        <Route element={<MainLayout />}>
-                            <Route path="/*" element={<Navigate to="/talk/rooms/new" />} />
-                            <Route path="/talk/users/:username" element={<Profile />} />
-                            <Route path="/talk/rooms/:id" element={<Room />} />
-                            <Route path="/talk/rooms/new" element={<NewRoom />} />
-                        </Route>
-                    ) : (
-                        <>
-                            <Route path="/*" element={<Navigate to="/talk/login" />} />
-                            <Route path="/talk/login" element={<Login />} />
-                            <Route path="/talk/register" element={<Register />} />
-                        </>
-                    )}
-                </Routes>
-            </HashRouter>
         );
-    }
+
+        const responseInterceptor = apiAuth.interceptors.response.use(
+            (response) => response,
+            async (error) => {
+                const prevRequest = error?.config;
+                if ((error?.response?.status === 403 || error?.response?.status === 401) && !prevRequest?.sent) {
+                    prevRequest.sent = true;
+                    const response = await apiRefreshToken();
+                    if (response.status === 200) {
+                        // refresh token is still valid, retry the request with the new access token
+                        prevRequest.headers["Authorization"] = "Bearer " + response.data.access_token;
+                        await login(response.data.access_token);
+                        return apiAuth(prevRequest);
+                    } else {
+                        // refresh token is invalid, log out
+                        logout();
+                    }
+                }
+                return Promise.reject(error);
+            }
+        );
+
+        return () => {
+            apiAuth.interceptors.request.eject(requestInterceptor);
+            apiAuth.interceptors.response.eject(responseInterceptor);
+        };
+    }, [token]);
+
+    return (
+        <HashRouter>
+            <Routes>
+                {currentUser && token ? (
+                    <Route element={<MainLayout />}>
+                        <Route path="/*" element={<Navigate to="/talk/rooms/new" />} />
+                        <Route path="/talk/users/:username" element={<Profile />} />
+                        <Route path="/talk/rooms/:id" element={<Room />} />
+                        <Route path="/talk/rooms/new" element={<NewRoom />} />
+                    </Route>
+                ) : (
+                    <Route element={<PersistLogin />}>
+                        <Route path="/*" element={<Navigate to="/talk/login" />} />
+                        <Route path="/talk/login" element={<Login />} />
+                        <Route path="/talk/register" element={<Register />} />
+                    </Route>
+                )}
+            </Routes>
+        </HashRouter>
+    );
 }
 
 export default App;

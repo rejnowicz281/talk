@@ -7,7 +7,7 @@ import cssAuth from "./styles/Auth.module.css";
 import cssRegister from "./styles/Register.module.css";
 
 function Register() {
-    const loginWithToken = useAuthStore((state) => state.loginWithToken);
+    const login = useAuthStore((state) => state.login);
 
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -23,13 +23,16 @@ function Register() {
         const res = await apiRegister(email, username, password, passwordConfirm, avatar);
         setLoading(false);
 
+        handleRegisterResponse(res);
+    };
+
+    function handleRegisterResponse(res) {
         if (res.status == 200) {
-            localStorage.setItem("token", res.data.token);
-            loginWithToken(res.data.token);
+            login(res.data.access_token);
         } else {
             setErrors(res.data.errors);
         }
-    };
+    }
 
     return (
         <div className={cssAuth.wrapper}>

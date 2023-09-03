@@ -1,4 +1,4 @@
-import { api } from ".";
+import { api, apiAuth } from ".";
 
 export async function apiLogin(email, password) {
     try {
@@ -37,6 +37,26 @@ export async function apiRegister(email, username, password, password_confirm, a
                 "Content-Type": "multipart/form-data",
             },
         });
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export async function apiLogout() {
+    try {
+        const response = await apiAuth.post("logout");
+
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export async function apiRefreshToken() {
+    try {
+        const response = await api.post("refresh");
 
         return response;
     } catch (error) {

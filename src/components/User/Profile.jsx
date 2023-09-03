@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchUserData } from "../../../API/users";
 import socket from "../../socket";
 import Loading from "../shared/Loading";
@@ -7,7 +7,6 @@ import UserBox from "./UserBox";
 import css from "./styles/Profile.module.css";
 
 function Profile() {
-    const navigate = useNavigate();
     const { username } = useParams();
     const [user, setUser] = useState(null);
 
@@ -34,7 +33,6 @@ function Profile() {
             const res = await fetchUserData(username);
 
             if (res.status === 200) setUser(res.data.user);
-            else navigate("/talk");
         }
 
         getUser();

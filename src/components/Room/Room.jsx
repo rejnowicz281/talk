@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { fetchDeleteMessage, fetchRoom } from "../../../API/rooms";
 import socket from "../../socket";
 import { useAuthStore } from "../../store";
@@ -15,7 +15,6 @@ function Room() {
 
     const messagesRef = useRef(null);
     const { id } = useParams();
-    const navigate = useNavigate();
     const [room, setRoom] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
 
@@ -40,8 +39,6 @@ function Room() {
                 else setIsAdmin(false);
 
                 setRoom(res.data.room);
-            } else {
-                navigate("/talk");
             }
         }
 
