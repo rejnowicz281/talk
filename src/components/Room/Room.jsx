@@ -31,17 +31,6 @@ function Room() {
     }, [id]);
 
     useEffect(() => {
-        async function getRoom() {
-            const res = await fetchRoom(id);
-
-            if (res.status === 200) {
-                if (currentUser._id == res.data.room.admin) setIsAdmin(true);
-                else setIsAdmin(false);
-
-                setRoom(res.data.room);
-            }
-        }
-
         getRoom();
 
         return () => {
@@ -56,6 +45,19 @@ function Room() {
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
     }, [room]);
+
+    async function getRoom(retry = 0) {
+        if (retry > 10) return setRoom(null);
+
+        const res = await fetchRoom(id);
+
+        if (res.status === 200) {
+            if (currentUser._id == res.data.room.admin) setIsAdmin(true);
+            else setIsAdmin(false);
+
+            setRoom(res.data.room);
+        } else getRoom(retry + 1);
+    }
 
     function addMessage(message) {
         setRoom((room) => ({ ...room, messages: [...room.messages, message] }));

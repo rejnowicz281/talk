@@ -25,14 +25,21 @@ function NavbarRooms() {
     }, []);
 
     useEffect(() => {
-        async function getRooms() {
-            const res = await fetchRooms();
-
-            if (res.status === 200) setRooms(res.data.rooms);
-        }
-
         getRooms();
+
+        return () => {
+            setRooms(null);
+        };
     }, []);
+
+    async function getRooms(retry = 0) {
+        if (retry > 10) return setRooms(null);
+
+        const res = await fetchRooms();
+
+        if (res.status === 200) setRooms(res.data.rooms);
+        else getRooms(retry + 1);
+    }
 
     function updateRoom(id, name) {
         setRooms((rooms) => rooms.map((room) => (room._id === id ? { ...room, name } : room)));

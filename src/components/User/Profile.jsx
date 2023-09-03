@@ -29,14 +29,17 @@ function Profile() {
     }, []);
 
     useEffect(() => {
-        async function getUser() {
-            const res = await fetchUserData(username);
-
-            if (res.status === 200) setUser(res.data.user);
-        }
-
         getUser();
     }, [username]);
+
+    async function getUser(retry = 0) {
+        if (retry > 10) return setUser(null);
+
+        const res = await fetchUserData(username);
+
+        if (res.status === 200) setUser(res.data.user);
+        else getUser(retry + 1);
+    }
 
     function addChatterRoom(room) {
         setUser((prev) => ({
