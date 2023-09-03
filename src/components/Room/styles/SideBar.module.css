@@ -24,6 +24,7 @@
 
 .heading {
     text-align: center;
+    word-break: break-all;
     margin-bottom: 10px;
 }
 
