@@ -1,0 +1,32 @@
+.button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #272727;
+    border-radius: 5px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.1s;
+    background-color: rgb(28, 28, 31);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.button:hover {
+    background-color: rgb(35, 35, 42);
+}
+
+.button:disabled {
+    background-color: rgb(191, 191, 191);
+    color: rgb(127, 127, 127);
+    cursor: not-allowed;
+}
+
+.icon {
+    font-size: 20px;
+}

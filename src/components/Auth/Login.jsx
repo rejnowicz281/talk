@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { apiDemoLogin, apiLogin } from "../../../API/auth";
+import { apiDemoLogin, apiGithubLogin, apiLogin } from "../../../API/auth";
 import { useAuthStore } from "../../store";
 import DemoLoginButton from "./DemoLoginButton";
+import GithubLoginButton from "./GithubLoginButton";
 import cssAuth from "./styles/Auth.module.css";
 import cssLogin from "./styles/Login.module.css";
 
@@ -15,14 +16,20 @@ function Login() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (e) => {
+    async function handleSubmit(e) {
         e.preventDefault();
         setLoading(true);
         const res = await apiLogin(email, password);
         setLoading(false);
 
         handleLoginResponse(res);
-    };
+    }
+
+    async function handleGithubResponse(res) {
+        const loginResponse = await apiGithubLogin(res.data.token);
+
+        handleLoginResponse(loginResponse);
+    }
 
     async function handleDemoLogin() {
         const res = await apiDemoLogin();
@@ -79,6 +86,7 @@ function Login() {
                     </button>
                 </form>
                 <DemoLoginButton mainAction={handleDemoLogin} />
+                <GithubLoginButton onSuccess={handleGithubResponse} />
                 <div className={cssAuth["auth-link-container"]}>
                     Don't have an account? <Link to="/talk/register">Register</Link>
                 </div>
