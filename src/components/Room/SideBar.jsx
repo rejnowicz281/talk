@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchJoinRoom, fetchLeaveRoom } from "../../../helpers/API";
+import { fetchJoinRoom, fetchLeaveRoom } from "../../../API/rooms";
 import { roomPropType } from "../../propTypes";
 import socket from "../../socket";
 import { useAuthStore } from "../../store";

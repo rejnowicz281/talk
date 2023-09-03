@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchDeleteMessage, fetchRoom } from "../../../helpers/API";
+import { fetchDeleteMessage, fetchRoom } from "../../../API/rooms";
 import socket from "../../socket";
 import { useAuthStore } from "../../store";
 import UserBox from "../User/UserBox";

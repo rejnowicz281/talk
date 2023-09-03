@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiOutlineLoading, AiOutlineSend } from "react-icons/ai";
 import { useParams } from "react-router-dom";
-import { fetchCreateMessage } from "../../../helpers/API";
+import { fetchCreateMessage } from "../../../API/rooms";
 import socket from "../../socket";
 import ImagePicker from "../shared/ImagePicker";
 import css from "./styles/MessageForm.module.css";

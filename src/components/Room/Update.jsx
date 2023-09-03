@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchUpdateRoom } from "../../../helpers/API";
+import { fetchUpdateRoom } from "../../../API/rooms";
 import socket from "../../socket";
 import css from "./styles/Update.module.css";
 

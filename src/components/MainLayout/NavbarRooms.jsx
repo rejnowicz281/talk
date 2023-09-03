@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { fetchRooms } from "../../../helpers/API";
+import { fetchRooms } from "../../../API/rooms";
 import socket from "../../socket";
 import Loading from "../shared/Loading";
 import cssNavbar from "./styles/Navbar.module.css";

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { apiRegister } from "../../../helpers/API";
+import { apiRegister } from "../../../API/auth";
 import { useAuthStore } from "../../store";
 import ImagePicker from "../shared/ImagePicker";
 import cssAuth from "./styles/Auth.module.css";

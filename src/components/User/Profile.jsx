@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { fetchUserData } from "../../../helpers/API";
+import { fetchUserData } from "../../../API/users";
 import socket from "../../socket";
 import Loading from "../shared/Loading";
 import UserBox from "./UserBox";

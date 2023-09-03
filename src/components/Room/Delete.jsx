@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { fetchDeleteRoom } from "../../../helpers/API";
+import { fetchDeleteRoom } from "../../../API/rooms";
 import socket from "../../socket";
 import AsyncButton from "../shared/AsyncButton";
 import css from "./styles/Delete.module.css";

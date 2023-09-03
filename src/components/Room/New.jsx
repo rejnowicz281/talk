@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { fetchCreateRoom } from "../../../helpers/API";
+import { fetchCreateRoom } from "../../../API/rooms";
 import socket from "../../socket";
 import css from "./styles/New.module.css";
 
