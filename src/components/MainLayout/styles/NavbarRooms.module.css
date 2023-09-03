@@ -3,9 +3,10 @@
     text-align: center;
     cursor: pointer;
     text-decoration: none;
-    padding: 20px 0;
+    padding: 20px 10px;
     color: rgb(196, 196, 196);
     font-weight: bold;
+    word-break: break-all;
 }
 
 .link:hover,
