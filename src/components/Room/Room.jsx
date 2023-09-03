@@ -98,7 +98,7 @@ function Room() {
                             )}
                             <div className={css["message-content"]}>
                                 <div>{message.text}</div>
-                                {message.photo && <img src={message.photo.url} />}
+                                {message.photo && <img className={css["message-photo"]} src={message.photo.url} />}
                             </div>
                         </div>
                     ))}

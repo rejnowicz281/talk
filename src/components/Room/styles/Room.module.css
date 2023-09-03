@@ -42,3 +42,7 @@
 .message-content {
     margin-left: 60px;
 }
+
+.message-photo {
+    max-width: 100%;
+}
